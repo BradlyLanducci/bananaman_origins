@@ -1,4 +1,5 @@
 #include <player/player.h>
+#include <common/gravity.h>
 
 #include <input/keyboard.h>
 
@@ -10,7 +11,8 @@ Player::Player()
 {
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
-    addChild(collision());
+    AE::Collision *p_collision{ collision() };
+    addChild(p_collision);
     addChild(mp_sprite);
 
     const int numFrames{ 4 };
@@ -30,12 +32,17 @@ Player::Player()
     mp_sprite->addAnimation("walkRight", walkRight);
 
     mp_sprite->playAnimation("idle");
+
+    AE::Vector2 spriteSize{ mp_sprite->size() };
+    setSize(spriteSize);
+    p_collision->setSize(spriteSize);
 }
 
 //------------------------------------------------------------------//
 
 void Player::physicsUpdate(double deltaTime)
 {
+    Gravity::apply(deltaTime, 300.0, this);
     if (AE::Keyboard::isPressed(AE::Keyboard::Key::Right))
     {
         mp_sprite->playAnimation("walkRight");

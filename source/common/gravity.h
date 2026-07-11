@@ -1,18 +1,15 @@
 #pragma once
 
+//------------------------------------------------------------------//
+
 #include <objects/object.h>
 
 //------------------------------------------------------------------//
 
-class Player;
-
-//------------------------------------------------------------------//
-
-class Level : public AE::Object
+class Gravity
 {
 public:
-    virtual ~Level() = default;
-    virtual void setPlayer(Player *p_player) = 0;
+    static void apply(double deltaTime, double force, AE::Object *p_object);
 };
 
 //------------------------------------------------------------------//

@@ -14,6 +14,7 @@ BananaManOrigins::BananaManOrigins()
 
     mp_levelContainer->setPlayer(mp_player);
 
+    mp_camera->setZoom({ 2.0, 2.0 });
     mp_camera->follow(mp_player);
     AE::CameraManager::get().setCurrent(mp_camera);
 }
