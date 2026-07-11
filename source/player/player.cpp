@@ -60,6 +60,25 @@ Player::Player()
 
 //------------------------------------------------------------------//
 
+Json::Value Player::serialize()
+{
+    Json::Value root;
+    root["globalPosition"] = globalPosition().toJson();
+    return root;
+}
+
+//------------------------------------------------------------------//
+
+void Player::deserialize(const Json::Value &data)
+{
+    auto gp{ data.get("globalPosition", Json::Value()) };
+    double x{ gp.get("x", 0.0).asDouble() };
+    double y{ gp.get("y", 0.0).asDouble() };
+    setGlobalPosition({ x, y });
+}
+
+//------------------------------------------------------------------//
+
 void Player::physicsUpdate(double deltaTime)
 {
     handleInput();
@@ -76,13 +95,13 @@ void Player::handleInput()
     if (AE::Keyboard::isPressed(AE::Keyboard::Key::Left))
     {
         m_facingRight = false;
-        vel.x = -walkSpeed;
+        vel.x = -WalkSpeed;
         // state = State::Walking;
     }
     else if (AE::Keyboard::isPressed(AE::Keyboard::Key::Right))
     {
         m_facingRight = true;
-        vel.x = walkSpeed;
+        vel.x = WalkSpeed;
         // state = State::Walking;
     }
     else

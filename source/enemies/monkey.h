@@ -1,47 +1,35 @@
 #pragma once
 
-#include <common/jumper.h>
-
-#include <json/json.h>
 #include <utilities/signal.h>
 #include <objects/character.h>
 #include <objects/animated_sprite.h>
 
 //------------------------------------------------------------------//
 
-class Player : public AE::Character
+class Monkey : public AE::Character
 {
 public:
-    Player();
+    Monkey();
 
     enum class State
     {
         Idle,
-        Walking,
-        Jumping,
-        Climbing
+        Walking
     } state;
 
     void physicsUpdate(double deltaTime);
 
-    Json::Value serialize();
-    void deserialize(const Json::Value &data);
-
 private:
-    void handleInput();
-
     static constexpr double GravityForce{ 400.0 };
-    static constexpr double WalkSpeed{ 200.0 };
-    static constexpr double JumpSeconds{ 0.4 };
-    static constexpr double JumpForce{ 1000.0 };
+    static constexpr double WalkSpeed{ 100.0 };
 
     AE::AnimatedSprite *mp_sprite{ nullptr };
 
-    Jumper *mp_jumper{ nullptr };
-
     bool m_facingRight{ true };
 
-    AE::Slot<AE::Collision *> m_onCollided;
+    AE::Slot<const AE::Vector2 &> m_collisionResolved;
+
+    static constexpr double StateChangeSeconds{ 2.0 };
 };
 
 //------------------------------------------------------------------//

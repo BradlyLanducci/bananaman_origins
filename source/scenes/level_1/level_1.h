@@ -1,6 +1,7 @@
 #pragma once
 
 #include <scenes/level.h>
+#include <enemies/monkey.h>
 
 //------------------------------------------------------------------//
 
@@ -39,6 +40,8 @@ private:
     Platform *mp_canopy1{ nullptr };
 
     Player *mp_player{ nullptr };
+
+    Monkey *mp_monkey1{ nullptr };
 };
 
 //------------------------------------------------------------------//

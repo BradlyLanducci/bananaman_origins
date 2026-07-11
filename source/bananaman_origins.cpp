@@ -1,6 +1,7 @@
-#include "bananaman_origins.h"
-
+#include <bananaman_origins.h>
 #include <scenes/level_1/level_1.h>
+
+#include <utilities/file_io.h>
 
 //------------------------------------------------------------------//
 
@@ -19,6 +20,16 @@ BananaManOrigins::BananaManOrigins()
     mp_camera->setZoom({ CameraZoom, CameraZoom });
     mp_camera->follow(mp_player, FollowSpeed);
     AE::CameraManager::get().setCurrent(mp_camera);
+
+    mp_player->deserialize(AE::FileIO::readJson("save_file.json"));
+}
+
+//------------------------------------------------------------------//
+
+BananaManOrigins::~BananaManOrigins()
+{
+    Json::Value data{ mp_player->serialize() };
+    (void)AE::FileIO::writeJson("save_file.json", data);
 }
 
 //------------------------------------------------------------------//

@@ -11,6 +11,7 @@ class BananaManOrigins : public AE::Object
 {
 public:
     BananaManOrigins();
+    ~BananaManOrigins();
 
 private:
     AE::Camera *mp_camera{ nullptr };
