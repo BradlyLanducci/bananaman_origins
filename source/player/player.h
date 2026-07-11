@@ -18,10 +18,10 @@ public:
 private:
     void handleInput();
 
-    static constexpr double GravityForce{ 300.0 };
-    static constexpr double walkSpeed{ 100.0 };
+    static constexpr double GravityForce{ 400.0 };
+    static constexpr double walkSpeed{ 200.0 };
     static constexpr double JumpSeconds{ 0.4 };
-    static constexpr double JumpForce{ 750.0 };
+    static constexpr double JumpForce{ 1000.0 };
 
     AE::AnimatedSprite *mp_sprite{ nullptr };
 

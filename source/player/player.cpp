@@ -41,7 +41,8 @@ Player::Player()
 
     AE::Vector2 spriteSize{ mp_sprite->size() };
     setSize(spriteSize);
-    p_collision->setSize(spriteSize);
+    p_collision->setPosition({ spriteSize.x / 4, 0 });
+    p_collision->setSize({ spriteSize.x / 2, spriteSize.y });
 }
 
 //------------------------------------------------------------------//

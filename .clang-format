@@ -1,0 +1,35 @@
+# .clang-format
+
+BasedOnStyle: LLVM
+
+ColumnLimit: 120
+
+SortIncludes: false
+
+TabWidth: 4
+IndentWidth: 4
+IndentAccessModifiers: false
+AccessModifierOffset: -4
+
+UseTab: Never
+
+BreakBeforeBraces: Allman
+
+AllowShortFunctionsOnASingleLine: None
+
+AllowShortIfStatementsOnASingleLine: false
+
+NamespaceIndentation: All
+
+BreakInheritanceList: BeforeComma
+
+FixNamespaceComments: false
+
+PointerAlignment: Right
+
+Cpp11BracedListStyle: false
+
+BreakTemplateDeclarations: Yes
+
+BreakConstructorInitializersBeforeComma: false
+BreakConstructorInitializers: BeforeComma
