@@ -3,7 +3,6 @@
 #include <enemies/enemy.h>
 
 #include <utilities/signal.h>
-#include <objects/animated_sprite.h>
 
 //------------------------------------------------------------------//
 
@@ -23,8 +22,6 @@ public:
 private:
     static constexpr double GravityForce{ 400.0 };
     static constexpr double WalkSpeed{ 100.0 };
-
-    AE::AnimatedSprite *mp_sprite{ nullptr };
 
     bool m_facingRight{ true };
 

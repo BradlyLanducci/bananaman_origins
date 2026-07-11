@@ -9,7 +9,6 @@
 
 Monkey::Monkey()
     : Enemy(new AE::Collision())
-    , mp_sprite(new AE::AnimatedSprite())
     , m_collisionResolved(
           [this](const AE::Vector2 &offset)
           {
@@ -25,7 +24,6 @@ Monkey::Monkey()
     resolvedCollision.connect(m_collisionResolved);
 
     addChild(p_collision);
-    addChild(mp_sprite);
 
     const int numFrames{ 4 };
     const int rows{ 1 };

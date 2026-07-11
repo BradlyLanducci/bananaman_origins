@@ -12,26 +12,37 @@ BananaProjectile::BananaProjectile(AE::Vector2 direction, double speed)
     , m_collided(
           [this](AE::Collision *p_collision)
           {
-              AE::Object *mp_parent{ p_collision->parent() };
-              bool isPlayer{ AE::TypeChecking::isType<Player *>(mp_parent) };
+              AE::Object *p_parent{ p_collision->parent() };
+              bool isPlayer{ AE::TypeChecking::isType<Player *>(p_parent) };
 
               if (isPlayer)
               {
                   return;
               }
 
-              bool isProjectile{ AE::TypeChecking::isType<BananaProjectile *>(mp_parent) };
+              bool isProjectile{ AE::TypeChecking::isType<BananaProjectile *>(p_parent) };
 
-              if (!isProjectile)
+              if (isProjectile)
               {
-                  bool isEnemy{ AE::TypeChecking::isType<Enemy *>(mp_parent) };
-                  if (isEnemy)
+                  return;
+              }
+
+              Enemy *p_enemy{ dynamic_cast<Enemy *>(p_parent) };
+              if (p_enemy)
+              {
+                  int health{ p_enemy->health() };
+                  health -= 1;
+                  if (health <= 0)
                   {
                       p_collision->parent()->queueDelete();
                   }
-
-                  queueDelete();
+                  else
+                  {
+                      p_enemy->setHealth(health);
+                  }
               }
+
+              queueDelete();
           })
 {
     mp_collision->setSolid(false);
