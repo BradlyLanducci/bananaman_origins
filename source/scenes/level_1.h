@@ -14,6 +14,7 @@ public:
     void setPlayer(Player *p_player) override;
 
 private:
+    AE::Sprite *mp_skybox{ nullptr };
     AE::Sprite *mp_grass{ nullptr };
     Player *mp_player{ nullptr };
 };

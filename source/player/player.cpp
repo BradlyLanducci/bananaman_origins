@@ -8,12 +8,14 @@
 Player::Player()
     : AE::Character(new AE::Collision())
     , mp_sprite(new AE::AnimatedSprite())
+    , mp_jumper(new Jumper(this, collision()))
 {
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
     AE::Collision *p_collision{ collision() };
     addChild(p_collision);
     addChild(mp_sprite);
+    addChild(mp_jumper);
 
     const int numFrames{ 4 };
     const int rows{ 1 };
@@ -26,10 +28,14 @@ Player::Player()
                                                      loops) };
     auto walkRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_right.png", numFrames, rows, columns, fps,
                                                       loops) };
+    auto jumpLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_left.png", 3, rows, 3, 24, false) };
+    auto jumpRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_right.png", 3, rows, 3, 24, false) };
 
     mp_sprite->addAnimation("idle", idle);
     mp_sprite->addAnimation("walkLeft", walkLeft);
     mp_sprite->addAnimation("walkRight", walkRight);
+    mp_sprite->addAnimation("jumpLeft", jumpLeft);
+    mp_sprite->addAnimation("jumpRight", jumpRight);
 
     mp_sprite->playAnimation("idle");
 
@@ -42,18 +48,76 @@ Player::Player()
 
 void Player::physicsUpdate(double deltaTime)
 {
-    Gravity::apply(deltaTime, 300.0, this);
-    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Right))
+    handleInput();
+}
+
+//------------------------------------------------------------------//
+
+void Player::handleInput()
+{
+    /*
+        Apply velocity and set animation based on input
+    */
+    AE::Vector2 vel;
+    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Left))
     {
-        mp_sprite->playAnimation("walkRight");
+        m_facingRight = false;
+        vel.x = -walkSpeed;
     }
-    else if (AE::Keyboard::isPressed(AE::Keyboard::Key::Left))
+    else if (AE::Keyboard::isPressed(AE::Keyboard::Key::Right))
     {
-        mp_sprite->playAnimation("walkLeft");
+        m_facingRight = true;
+        vel.x = walkSpeed;
     }
     else
     {
-        // mp_sprite->playAnimation("idle");
+        vel.x = 0.0;
+        vel.y = 0.0;
+    }
+
+    auto jumpingState{ mp_jumper->state() };
+    if (jumpingState != Jumper::State::Jumping)
+    {
+        vel.y = GravityForce;
+
+        if (jumpingState == Jumper::State::Idle)
+        {
+            if (vel.x != 0.0)
+            {
+                if (m_facingRight)
+                {
+                    mp_sprite->playAnimation("walkRight");
+                }
+                else
+                {
+                    mp_sprite->playAnimation("walkLeft");
+                }
+            }
+            else
+            {
+                mp_sprite->playAnimation("idle");
+            }
+        }
+    }
+
+    setVelocity(vel);
+
+    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Up))
+    {
+        if (jumpingState == Jumper::State::Idle)
+        {
+            mp_sprite->stopAnimation();
+            if (m_facingRight)
+            {
+                mp_sprite->playAnimation("jumpRight");
+            }
+            else
+            {
+                mp_sprite->playAnimation("jumpLeft");
+            }
+        }
+
+        mp_jumper->begin(JumpSeconds, JumpForce);
     }
 }
 

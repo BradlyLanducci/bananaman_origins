@@ -2,11 +2,9 @@
 
 //------------------------------------------------------------------//
 
-void Gravity::apply(double deltaTime, double force, AE::Object *p_object)
+void Gravity::apply(double deltaTime, double force, AE::Character *p_character)
 {
-    AE::Vector2 gp{ p_object->globalPosition() };
-    gp.y += deltaTime * force;
-    p_object->setGlobalPosition(gp);
+    p_character->setVelocity({ p_character->velocity().x, -force });
 }
 
 //------------------------------------------------------------------//

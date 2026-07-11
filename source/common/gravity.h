@@ -2,14 +2,14 @@
 
 //------------------------------------------------------------------//
 
-#include <objects/object.h>
+#include <objects/character.h>
 
 //------------------------------------------------------------------//
 
 class Gravity
 {
 public:
-    static void apply(double deltaTime, double force, AE::Object *p_object);
+    static void apply(double deltaTime, double force, AE::Character *p_character);
 };
 
 //------------------------------------------------------------------//
