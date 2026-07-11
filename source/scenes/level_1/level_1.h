@@ -1,7 +1,16 @@
 #pragma once
 
 #include <scenes/level.h>
-#include <scenes/level_1/platform.h>
+
+//------------------------------------------------------------------//
+
+namespace AE
+{
+    class Sprite;
+}
+
+class Platform;
+class Vine;
 
 //------------------------------------------------------------------//
 
@@ -21,6 +30,8 @@ private:
     Platform *mp_ground1{ nullptr };
     Platform *mp_tower{ nullptr };
     Platform *mp_towerTopLeft{ nullptr };
+    Vine *mp_vine1{ nullptr };
+    Vine *mp_vine2{ nullptr };
     Platform *mp_towerTopRight{ nullptr };
     Platform *mp_ground2{ nullptr };
     Platform *mp_ground3{ nullptr };

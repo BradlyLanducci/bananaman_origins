@@ -1,7 +1,7 @@
 #include <player/player.h>
 #include <scenes/level_1/level_1.h>
-
-#include <utilities/window.h>
+#include <scenes/level_1/platform.h>
+#include <scenes/level_1/vine.h>
 
 //------------------------------------------------------------------//
 
@@ -13,7 +13,9 @@ Level1::Level1()
     , mp_ground1(new Platform{ { 300, 100 } })
     , mp_tower(new Platform{ { { 100, 500 } } })
     , mp_towerTopLeft(new Platform{ { { 100, 100 } } })
+    , mp_vine1(new Vine{ 450 })
     , mp_towerTopRight(new Platform{ { { 100, 100 } } })
+    , mp_vine2(new Vine{ 450 })
     , mp_ground2(new Platform{ { 2000, 100 } })
     , mp_ground3(new Platform{ { 200, 100 } })
     , mp_ground4(new Platform{ { 100, 100 } })
@@ -26,7 +28,9 @@ Level1::Level1()
     addChild(mp_ground1);
     addChild(mp_tower);
     addChild(mp_towerTopLeft);
+    addChild(mp_vine1);
     addChild(mp_towerTopRight);
+    addChild(mp_vine2);
     addChild(mp_ground2);
     addChild(mp_ground3);
     addChild(mp_ground4);
@@ -42,11 +46,13 @@ Level1::Level1()
     mp_entranceBottom->setGlobalPosition(AE::Vector2{ 0, 225 });
     mp_ground1->setGlobalPosition(AE::Vector2{ 600, 200 });
     mp_tower->setGlobalPosition(AE::Vector2{ 1200, -200 });
-    mp_towerTopLeft->setGlobalPosition(AE::Vector2{ 1100, -200 });
-    mp_towerTopRight->setGlobalPosition(AE::Vector2{ 1300, -200 });
+    mp_towerTopLeft->setGlobalPosition(AE::Vector2{ 1100, -475 });
+    mp_vine1->setGlobalPosition(AE::Vector2{ 1145, -375 });
+    mp_towerTopRight->setGlobalPosition(AE::Vector2{ 1300, -475 });
+    mp_vine2->setGlobalPosition(AE::Vector2{ 1345, -375 });
     mp_ground2->setGlobalPosition(AE::Vector2{ 1500, 200 });
     mp_ground3->setGlobalPosition(AE::Vector2{ 1700, 100 });
-    mp_ground4->setGlobalPosition(AE::Vector2{ 2100, 100 });
+    mp_ground4->setGlobalPosition(AE::Vector2{ 2300, 100 });
     mp_canopy1->setGlobalPosition(AE::Vector2{ 1500, -300 });
 }
 

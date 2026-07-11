@@ -13,6 +13,14 @@ class Player : public AE::Character
 public:
     Player();
 
+    enum class State
+    {
+        Idle,
+        Walking,
+        Jumping,
+        Climbing
+    } state;
+
     void physicsUpdate(double deltaTime);
 
 private:
@@ -28,6 +36,8 @@ private:
     Jumper *mp_jumper{ nullptr };
 
     bool m_facingRight{ true };
+
+    AE::Slot<AE::Collision *> m_onCollided;
 };
 
 //------------------------------------------------------------------//

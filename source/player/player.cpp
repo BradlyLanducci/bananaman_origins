@@ -1,6 +1,8 @@
 #include <player/player.h>
 #include <common/gravity.h>
+#include <scenes/level_1/vine.h>
 
+#include <utilities/type_checking.h>
 #include <input/keyboard.h>
 
 //------------------------------------------------------------------//
@@ -9,10 +11,21 @@ Player::Player()
     : AE::Character(new AE::Collision())
     , mp_sprite(new AE::AnimatedSprite())
     , mp_jumper(new Jumper(this, collision()))
+    , m_onCollided(
+          [this](AE::Collision *p_collision)
+          {
+              bool isVine{ AE::TypeChecking::isType<Vine *>(p_collision->parent()) };
+              if (isVine)
+              {
+                  state = State::Climbing;
+              }
+          })
 {
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
     AE::Collision *p_collision{ collision() };
+    p_collision->collided.connect(m_onCollided);
+
     addChild(p_collision);
     addChild(mp_sprite);
     addChild(mp_jumper);
@@ -64,16 +77,19 @@ void Player::handleInput()
     {
         m_facingRight = false;
         vel.x = -walkSpeed;
+        // state = State::Walking;
     }
     else if (AE::Keyboard::isPressed(AE::Keyboard::Key::Right))
     {
         m_facingRight = true;
         vel.x = walkSpeed;
+        // state = State::Walking;
     }
     else
     {
         vel.x = 0.0;
         vel.y = 0.0;
+        // state = State::Idle;
     }
 
     auto jumpingState{ mp_jumper->state() };
@@ -101,11 +117,13 @@ void Player::handleInput()
         }
     }
 
-    setVelocity(vel);
-
     if (AE::Keyboard::isPressed(AE::Keyboard::Key::Up))
     {
-        if (jumpingState == Jumper::State::Idle)
+        if (state == State::Climbing)
+        {
+            vel.y = -300;
+        }
+        else if (jumpingState == Jumper::State::Idle)
         {
             mp_sprite->stopAnimation();
             if (m_facingRight)
@@ -120,6 +138,10 @@ void Player::handleInput()
             mp_jumper->begin(JumpSeconds, JumpForce);
         }
     }
+
+    setVelocity(vel);
+
+    state = State::Idle;
 }
 
 //------------------------------------------------------------------//
