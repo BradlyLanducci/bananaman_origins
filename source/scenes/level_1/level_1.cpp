@@ -39,7 +39,7 @@ Level1::Level1()
     addChild(mp_monkey1);
 
     mp_skybox->setTexture("assets/skybox.png");
-    mp_skybox->setSize({ 1600.0, 900.0 });
+    mp_skybox->setSize({ 1600.0 * 2.0, 900.0 });
     mp_skybox->setScale({ 2.0, 2.0 });
     mp_skybox->setGlobalPosition({ -1600 * 2 / 2, -900 * 2 / 2 });
 

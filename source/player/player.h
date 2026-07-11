@@ -32,6 +32,7 @@ private:
     void shoot();
 
     static constexpr double GravityForce{ 400.0 };
+    static constexpr double ClimbSpeed{ -300.0 };
     static constexpr double WalkSpeed{ 200.0 };
     static constexpr double JumpSeconds{ 0.4 };
     static constexpr double JumpForce{ 1000.0 };

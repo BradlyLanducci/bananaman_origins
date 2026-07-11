@@ -31,27 +31,27 @@ Player::Player()
     addChild(mp_sprite);
     addChild(mp_jumper);
 
-    const int numFrames{ 4 };
     const int rows{ 1 };
-    const int columns{ 4 };
     const int fps{ 8 };
-    const bool loops{ true };
-    auto idle{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_right.png", numFrames, rows, columns, fps,
-                                                 loops) };
-    auto walkLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_left.png", numFrames, rows, columns, fps,
-                                                     loops) };
-    auto walkRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_right.png", numFrames, rows, columns, fps,
-                                                      loops) };
+    auto idleLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_idle_left.png", 8, rows, 8, fps, true) };
+    auto idleRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_idle_right.png", 8, rows, 8, fps, true) };
+    auto walkLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_left.png", 4, rows, 4, fps, true) };
+    auto walkRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_right.png", 4, rows, 4, fps, true) };
     auto jumpLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_left.png", 3, rows, 3, 24, false) };
     auto jumpRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_right.png", 3, rows, 3, 24, false) };
+    auto climbLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_climb_left.png", 2, rows, 2, fps, true) };
+    auto climbRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_climb_right.png", 2, rows, 2, fps, true) };
 
-    mp_sprite->addAnimation("idle", idle);
+    mp_sprite->addAnimation("idleLeft", idleLeft);
+    mp_sprite->addAnimation("idleRight", idleRight);
     mp_sprite->addAnimation("walkLeft", walkLeft);
     mp_sprite->addAnimation("walkRight", walkRight);
     mp_sprite->addAnimation("jumpLeft", jumpLeft);
     mp_sprite->addAnimation("jumpRight", jumpRight);
+    mp_sprite->addAnimation("climbLeft", climbLeft);
+    mp_sprite->addAnimation("climbRight", climbRight);
 
-    mp_sprite->playAnimation("idle");
+    mp_sprite->playAnimation("idleRight");
 
     AE::Vector2 spriteSize{ mp_sprite->size() };
     setSize(spriteSize);
@@ -132,7 +132,14 @@ void Player::handleInput()
             }
             else
             {
-                mp_sprite->playAnimation("idle");
+                if (m_facingRight)
+                {
+                    mp_sprite->playAnimation("idleRight");
+                }
+                else
+                {
+                    mp_sprite->playAnimation("idleLeft");
+                }
             }
         }
     }
@@ -150,7 +157,15 @@ void Player::handleInput()
     {
         if (state == State::Climbing)
         {
-            vel.y = -300;
+            vel.y = ClimbSpeed;
+            if (m_facingRight)
+            {
+                mp_sprite->playAnimation("climbRight");
+            }
+            else
+            {
+                mp_sprite->playAnimation("climbLeft");
+            }
         }
         else if (jumpingState == Jumper::State::Idle)
         {
@@ -165,6 +180,17 @@ void Player::handleInput()
             }
 
             mp_jumper->begin(JumpSeconds, JumpForce);
+        }
+        else if (jumpingState != Jumper::State::Jumping)
+        {
+            if (m_facingRight)
+            {
+                mp_sprite->playAnimation("idleRight");
+            }
+            else
+            {
+                mp_sprite->playAnimation("idleLeft");
+            }
         }
     }
 
