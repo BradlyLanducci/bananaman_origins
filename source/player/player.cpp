@@ -115,9 +115,9 @@ void Player::handleInput()
             {
                 mp_sprite->playAnimation("jumpLeft");
             }
-        }
 
-        mp_jumper->begin(JumpSeconds, JumpForce);
+            mp_jumper->begin(JumpSeconds, JumpForce);
+        }
     }
 }
 

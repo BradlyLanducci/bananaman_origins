@@ -1,6 +1,6 @@
 #include "bananaman_origins.h"
 
-#include <scenes/level_1.h>
+#include <scenes/level_1/level_1.h>
 
 //------------------------------------------------------------------//
 

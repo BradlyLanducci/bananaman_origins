@@ -1,8 +1,7 @@
 #pragma once
 
-#include <objects/sprite.h>
-
 #include <scenes/level.h>
+#include <scenes/level_1/platform.h>
 
 //------------------------------------------------------------------//
 
@@ -15,7 +14,7 @@ public:
 
 private:
     AE::Sprite *mp_skybox{ nullptr };
-    AE::Sprite *mp_grass{ nullptr };
+    Platform *mp_platform{ nullptr };
     Player *mp_player{ nullptr };
 };
 
