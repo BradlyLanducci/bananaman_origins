@@ -8,7 +8,7 @@
 //------------------------------------------------------------------//
 
 Monkey::Monkey()
-    : AE::Character(new AE::Collision())
+    : Enemy(new AE::Collision())
     , mp_sprite(new AE::AnimatedSprite())
     , m_collisionResolved(
           [this](const AE::Vector2 &offset)

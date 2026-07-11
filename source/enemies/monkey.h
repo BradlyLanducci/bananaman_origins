@@ -1,12 +1,13 @@
 #pragma once
 
+#include <enemies/enemy.h>
+
 #include <utilities/signal.h>
-#include <objects/character.h>
 #include <objects/animated_sprite.h>
 
 //------------------------------------------------------------------//
 
-class Monkey : public AE::Character
+class Monkey : public Enemy
 {
 public:
     Monkey();

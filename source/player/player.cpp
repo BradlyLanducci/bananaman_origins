@@ -1,6 +1,7 @@
 #include <player/player.h>
 #include <common/gravity.h>
 #include <scenes/level_1/vine.h>
+#include <player/banana_projectile.h>
 
 #include <utilities/type_checking.h>
 #include <input/keyboard.h>
@@ -136,6 +137,15 @@ void Player::handleInput()
         }
     }
 
+    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Enter) && !m_shooting)
+    {
+        shoot();
+    }
+    else if (!AE::Keyboard::isPressed(AE::Keyboard::Key::Enter))
+    {
+        m_shooting = false;
+    }
+
     if (AE::Keyboard::isPressed(AE::Keyboard::Key::Up))
     {
         if (state == State::Climbing)
@@ -161,6 +171,27 @@ void Player::handleInput()
     setVelocity(vel);
 
     state = State::Idle;
+}
+
+//------------------------------------------------------------------//
+
+void Player::shoot()
+{
+    if (!m_shooting)
+    {
+        m_shooting = true;
+        auto p_parent{ parent() };
+        if (p_parent)
+        {
+            AE::Vector2 direction{ m_facingRight ? AE::Vector2(1.0, 0.0) : AE::Vector2(-1.0, 0.0) };
+            double speed{ 500.0 };
+            BananaProjectile *p_projectile{ new BananaProjectile(direction, speed) };
+            AE::Vector2 initialPosition{ globalPosition() +
+                                         (m_facingRight ? AE::Vector2(80, 42.5) : AE::Vector2(0, 42.5)) };
+            p_projectile->setGlobalPosition(initialPosition);
+            p_parent->addChild(p_projectile);
+        }
+    }
 }
 
 //------------------------------------------------------------------//

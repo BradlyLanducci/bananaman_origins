@@ -29,6 +29,7 @@ public:
 
 private:
     void handleInput();
+    void shoot();
 
     static constexpr double GravityForce{ 400.0 };
     static constexpr double WalkSpeed{ 200.0 };
@@ -40,6 +41,7 @@ private:
     Jumper *mp_jumper{ nullptr };
 
     bool m_facingRight{ true };
+    bool m_shooting{ false };
 
     AE::Slot<AE::Collision *> m_onCollided;
 };
