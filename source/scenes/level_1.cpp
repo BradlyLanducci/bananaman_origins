@@ -1,13 +1,9 @@
-#pragma once
-
-#include <scenes/level.h>
+#include <scenes/level_1.h>
 
 //------------------------------------------------------------------//
 
-class Level1 : public Level
+Level1::Level1()
 {
-public:
-    Level1();
-};
+}
 
 //------------------------------------------------------------------//

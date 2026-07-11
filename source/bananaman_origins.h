@@ -1,13 +1,18 @@
 #pragma once
 
 #include <scenes/level.h>
+#include <player/player.h>
 
 //------------------------------------------------------------------//
 
-class Level1 : public Level
+class BananaManOrigins : public AE::Object
 {
 public:
-    Level1();
+    BananaManOrigins();
+
+private:
+    Level *mp_levelContainer{nullptr};
+    Player *mp_player{nullptr};
 };
 
 //------------------------------------------------------------------//

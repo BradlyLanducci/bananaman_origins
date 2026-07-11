@@ -1,13 +1,13 @@
 #pragma once
 
-#include <scenes/level.h>
+#include <objects/object.h>
 
 //------------------------------------------------------------------//
 
-class Level1 : public Level
+class Player : public AE::Object
 {
 public:
-    Level1();
+    Player();
 };
 
 //------------------------------------------------------------------//

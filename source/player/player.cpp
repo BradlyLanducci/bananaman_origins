@@ -1,13 +1,9 @@
-#pragma once
-
-#include <scenes/level.h>
+#include <player/player.h>
 
 //------------------------------------------------------------------//
 
-class Level1 : public Level
+Player::Player()
 {
-public:
-    Level1();
-};
+}
 
 //------------------------------------------------------------------//

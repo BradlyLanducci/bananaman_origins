@@ -1,13 +1,13 @@
-#pragma once
-
 #include <scenes/level.h>
+
+#include <player/player.h>
 
 //------------------------------------------------------------------//
 
-class Level1 : public Level
+void Level::setPlayer(Player *p_player)
 {
-public:
-    Level1();
-};
+    mp_player = p_player;
+    mp_player->addChild(mp_player);
+}
 
 //------------------------------------------------------------------//
