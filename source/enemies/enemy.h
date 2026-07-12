@@ -1,5 +1,7 @@
 #pragma once
 
+#include <common/damageable.h>
+
 #include <objects/character.h>
 #include <objects/animated_sprite.h>
 
@@ -9,19 +11,16 @@ class Player;
 
 //------------------------------------------------------------------//
 
-class Enemy : public AE::Character
+class Enemy
+    : public AE::Character
+    , public Damageable
 {
 public:
-    Enemy() = default;
-    Enemy(AE::Collision *p_collision);
-
-    virtual ~Enemy() = default;
-
-    int health() const;
-    void setHealth(int health);
-    void setMaxHealth(int maxHealth);
+    explicit Enemy(AE::Collision *p_collision);
 
     void setPlayer(Player *p_player);
+
+    void healthChanged(int health) override;
 
 protected:
     Player *mp_player{ nullptr };
@@ -40,9 +39,6 @@ private:
         { Health::Injured, glm::vec4{ 1.0, 0.4, 0.4, 1.0 } },
         { Health::Healthy, glm::vec4{ 0.5, 0.0, 0.0, 1.0 } }
     };
-
-    int m_health{ 2 };
-    int m_maxHealth{ 2 };
 };
 
 //------------------------------------------------------------------//

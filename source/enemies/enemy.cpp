@@ -13,43 +13,27 @@ Enemy::Enemy(AE::Collision *p_collision)
 
 //------------------------------------------------------------------//
 
-int Enemy::health() const
+void Enemy::setPlayer(Player *p_player)
 {
-    return m_health;
+    mp_player = p_player;
 }
 
 //------------------------------------------------------------------//
 
-void Enemy::setHealth(int health)
+void Enemy::healthChanged(int health)
 {
-    m_health = health;
-
-    if (m_health >= 0)
+    if (health >= 0)
     {
-        double percentLeft{ static_cast<double>(m_health / static_cast<double>(m_maxHealth)) };
+        double percentLeft{ static_cast<double>(health / static_cast<double>(maxHealth())) };
         int healthIndex{ static_cast<int>(
             std::floor(percentLeft * static_cast<double>(magic_enum::enum_count<Health>()))) };
         mp_sprite->shader().p_fragmentShader->setVec4("healthTint", HealthTints.at(static_cast<Health>(healthIndex)));
 
-        if (m_health <= 0)
+        if (health <= 0)
         {
             queueDelete();
         }
     }
-}
-
-//------------------------------------------------------------------//
-
-void Enemy::setMaxHealth(int maxHealth)
-{
-    m_maxHealth = maxHealth;
-}
-
-//------------------------------------------------------------------//
-
-void Enemy::setPlayer(Player *p_player)
-{
-    mp_player = p_player;
 }
 
 //------------------------------------------------------------------//

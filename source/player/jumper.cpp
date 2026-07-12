@@ -15,7 +15,6 @@ Jumper::Jumper(AE::Character *p_subject, AE::Collision *p_subject_collision)
                   m_state = State::Idle;
               }
           })
-    , m_jumpSfx("examples/platformer/grass_scene/audio/jump.wav")
 {
     mp_subject->isOnFloorChanged.connect(m_onFloorChanged);
 
@@ -28,8 +27,6 @@ void Jumper::begin(double jumpSeconds, double jumpForce)
 {
     if (m_state == State::Idle)
     {
-        m_jumpSfx.play();
-
         m_accumulator = 0.0;
         m_jumpSeconds = jumpSeconds;
         m_jumpForce = jumpForce;

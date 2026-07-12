@@ -2,7 +2,6 @@
 
 #include <objects/character.h>
 #include <objects/collision.h>
-#include <audio/audio_player.h>
 
 //------------------------------------------------------------------//
 
@@ -30,7 +29,6 @@ private:
     AE::Character *mp_subject{ nullptr };
     AE::Collision *mp_subjectCollision{ nullptr };
     AE::Slot<bool> m_onFloorChanged;
-    AE::AudioPlayer m_jumpSfx;
 
     double m_accumulator{};
     double m_jumpForce{};

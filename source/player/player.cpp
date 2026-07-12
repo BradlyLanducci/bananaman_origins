@@ -63,6 +63,8 @@ Player::Player()
     , m_walkSfx{ { "assets/sfx/walk_1.wav", "assets/sfx/walk_2.wav", "assets/sfx/walk_3.wav",
                    "assets/sfx/walk_4.wav" } }
 {
+    setMaxHealth(PlayerMaxHealth);
+
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
     AE::Collision *p_collision{ collision() };
@@ -232,6 +234,15 @@ void Player::playAnimation(std::string animation, bool force)
     }
 
     mp_sprite->playAnimation(animation);
+}
+
+//------------------------------------------------------------------//
+
+void Player::healthChanged(int health)
+{
+    if (health <= 0)
+    {
+    }
 }
 
 //------------------------------------------------------------------//

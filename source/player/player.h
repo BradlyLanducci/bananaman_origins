@@ -3,6 +3,7 @@
 #include <player/jumper.h>
 #include <player/player_melee_attack.h>
 #include <player/random_sfx.h>
+#include <common/damageable.h>
 
 #include <utilities/signal.h>
 #include <objects/character.h>
@@ -13,7 +14,9 @@
 
 //------------------------------------------------------------------//
 
-class Player final : public AE::Character
+class Player final
+    : public AE::Character
+    , public Damageable
 {
 public:
     Player();
@@ -26,9 +29,11 @@ public:
 private:
     void handleInput();
     void playAnimation(std::string animation, bool force = false);
+    void healthChanged(int health) override;
 
     AE::Slot<> m_onMeleeFinished;
 
+    static constexpr int PlayerMaxHealth{ 3 };
     static constexpr double GravityForce{ 600.0 };
     static constexpr double ClimbSpeed{ -300.0 };
     static constexpr double WalkSpeed{ 200.0 };
