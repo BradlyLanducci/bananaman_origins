@@ -3,6 +3,8 @@
 #include <common/platform.h>
 #include <common/vine.h>
 
+#include <utilities/window.h>
+
 //------------------------------------------------------------------//
 
 Level1::Level1()
@@ -25,6 +27,7 @@ Level1::Level1()
     , mp_canopy1(new Platform{ { 300, 50 }, { 1500, -300 } })
     , mp_monkey1(new Monkey())
     , mp_monkey2(new Monkey())
+    , m_windowSizeChanged([this](AE::Vector2 newSize) { mp_skybox->setSize(newSize); })
 {
     addChild(mp_skybox);
     addChild(mp_islandGround);
@@ -47,9 +50,9 @@ Level1::Level1()
     addChild(mp_cloudSpawner);
 
     mp_skybox->setTexture("assets/skybox.png");
-    mp_skybox->setSize({ 1600.0 * 2.0, 900.0 });
-    mp_skybox->setScale({ 2.0, 2.0 });
-    mp_skybox->setGlobalPosition({ -1600 * 2 / 2, -900 * 2 / 2 });
+    mp_skybox->setSize(AE::Window::size());
+    AE::Window::resized.connect(m_windowSizeChanged);
+    mp_skybox->setIsUi(true);
 
     const int rows{ 1 };
     const int fps{ 2 };

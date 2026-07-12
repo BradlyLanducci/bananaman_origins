@@ -47,6 +47,7 @@ private:
 
     Monkey *mp_monkey1{ nullptr };
     Monkey *mp_monkey2{ nullptr };
+    AE::Slot<AE::Vector2> m_windowSizeChanged;
 };
 
 //------------------------------------------------------------------//
