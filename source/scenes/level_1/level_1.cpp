@@ -21,6 +21,7 @@ Level1::Level1()
     , mp_ground4(new Platform{ { 100, 100 } })
     , mp_canopy1(new Platform{ { 300, 50 } })
     , mp_monkey1(new Monkey())
+    , mp_monkey2(new Monkey())
 {
     addChild(mp_skybox);
     addChild(mp_islandGround);
@@ -37,6 +38,7 @@ Level1::Level1()
     addChild(mp_ground4);
     addChild(mp_canopy1);
     addChild(mp_monkey1);
+    addChild(mp_monkey2);
 
     mp_skybox->setTexture("assets/skybox.png");
     mp_skybox->setSize({ 1600.0 * 2.0, 900.0 });
@@ -58,6 +60,7 @@ Level1::Level1()
     mp_canopy1->setGlobalPosition(AE::Vector2{ 1500, -300 });
 
     mp_monkey1->setGlobalPosition({ 1900, 100 });
+    mp_monkey2->setGlobalPosition({ 2200, 100 });
 }
 
 //------------------------------------------------------------------//

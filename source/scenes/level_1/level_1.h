@@ -42,6 +42,7 @@ private:
     Player *mp_player{ nullptr };
 
     Monkey *mp_monkey1{ nullptr };
+    Monkey *mp_monkey2{ nullptr };
 };
 
 //------------------------------------------------------------------//
