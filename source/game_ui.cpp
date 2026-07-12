@@ -15,11 +15,11 @@ GameUi::GameUi()
     addChild(mp_continue);
     mp_continue->setTexture("assets/continue.png");
     mp_continue->setScale({ 4.0, 4.0 });
+    mp_continue->setEnabled(false);
     setIsUi(true);
 
     AE::Vector2 windowSize{ AE::Window::size() };
     setSize(windowSize);
-    setContinuePosition();
 
     AE::Window::resized.connect(m_windowResized);
 
