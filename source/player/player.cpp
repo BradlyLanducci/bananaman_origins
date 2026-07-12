@@ -27,6 +27,9 @@ Player::Player()
               mp_meleeAttack->endAttack();
               playAnimation("idle");
           })
+    , m_jumpSfx("assets/sfx/jump.wav")
+    , m_walkSfx{ { "assets/sfx/walk_1.wav", "assets/sfx/walk_2.wav", "assets/sfx/walk_3.wav",
+                   "assets/sfx/walk_4.wav" } }
 {
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
@@ -48,8 +51,8 @@ Player::Player()
     auto jumpRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_right.png", 3, rows, 3, 24, false) };
     auto climbLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_climb_left.png", 2, rows, 2, fps, true) };
     auto climbRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_climb_right.png", 2, rows, 2, fps, true) };
-    auto meleeLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_left.png", 3, rows, 3, 24, false) };
-    auto meleeRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_right.png", 3, rows, 3, 24, false) };
+    auto meleeLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_melee_left.png", 7, rows, 7, 16, false) };
+    auto meleeRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_melee_right.png", 7, rows, 7, 16, false) };
 
     meleeLeft->animationFinished.connect(m_onMeleeFinished);
     meleeRight->animationFinished.connect(m_onMeleeFinished);
@@ -73,6 +76,9 @@ Player::Player()
     p_collision->setSize({ spriteSize.x / 2, spriteSize.y });
 
     mp_meleeAttack->setSize({ spriteSize.x / 2, spriteSize.y });
+
+    m_jumpSfx.setVolumeDb(-15.0);
+    m_walkSfx.setVolumeDb(-12.0);
 }
 
 //------------------------------------------------------------------//
@@ -138,6 +144,7 @@ void Player::handleInput()
             if (vel.x != 0.0)
             {
                 playAnimation("walk");
+                m_walkSfx.play();
             }
             else
             {
@@ -156,6 +163,8 @@ void Player::handleInput()
         else if (jumpingState == Jumper::State::Idle)
         {
             playAnimation("jump");
+
+            m_jumpSfx.play();
 
             mp_jumper->begin(JumpSeconds, JumpForce);
         }

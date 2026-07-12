@@ -2,6 +2,7 @@
 
 #include <player/jumper.h>
 #include <player/player_melee_attack.h>
+#include <player/random_sfx.h>
 
 #include <utilities/signal.h>
 #include <objects/character.h>
@@ -48,6 +49,9 @@ private:
     bool m_facingRight{ true };
 
     AE::Slot<AE::Collision *> m_onCollided;
+
+    AE::AudioPlayer m_jumpSfx;
+    RandomSfx m_walkSfx;
 };
 
 //------------------------------------------------------------------//

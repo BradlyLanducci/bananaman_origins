@@ -9,6 +9,7 @@ BananaManOrigins::BananaManOrigins()
     : mp_camera(new AE::Camera())
     , mp_levelContainer(new Level1())
     , mp_player(new Player())
+    , m_music("assets/sfx/banana_theme.wav")
 {
     addChild(mp_camera);
     addChild(mp_levelContainer);
@@ -22,6 +23,9 @@ BananaManOrigins::BananaManOrigins()
     AE::CameraManager::get().setCurrent(mp_camera);
 
     mp_player->deserialize(AE::FileIO::readJson("save_file.json"));
+
+    m_music.setVolumeDb(-9.0);
+    m_music.play(true);
 }
 
 //------------------------------------------------------------------//

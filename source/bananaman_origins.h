@@ -18,6 +18,8 @@ private:
 
     Level *mp_levelContainer{ nullptr };
     Player *mp_player{ nullptr };
+
+    AE::AudioPlayer m_music;
 };
 
 //------------------------------------------------------------------//
