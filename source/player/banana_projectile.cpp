@@ -7,7 +7,7 @@
 
 //------------------------------------------------------------------//
 
-BananaProjectile::(AE::Vector2 direction, double speed)
+BananaProjectile::BananaProjectile(AE::Vector2 direction, double speed)
     : mp_collision(new AE::Collision())
     , m_collided(
           [this](AE::Collision *p_collision)
