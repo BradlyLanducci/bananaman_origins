@@ -30,6 +30,9 @@ private:
     CloudSpawner *mp_cloudSpawner{ nullptr };
     Platform *mp_islandGround{ nullptr };
 
+    Platform *mp_trunk1{ nullptr };
+    Platform *mp_trunk2{ nullptr };
+
     GameUi *mp_gameUi{ nullptr };
     Player *mp_player{ nullptr };
 

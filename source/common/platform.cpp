@@ -3,17 +3,17 @@
 //------------------------------------------------------------------//
 
 Platform::Platform(const AE::Vector2 &platformSize, const AE::Vector2 &gp, const std::string &topTexturePath,
-                   const std::string &bottomTexturePath)
+                   const std::string &bottomTexturePath, bool chunkWidth, bool chunkHeight)
 {
-    int cols{ static_cast<int>(std::ceil(platformSize.x / 100.0)) };
-    int rows{ static_cast<int>(std::ceil(platformSize.y / 100.0)) };
+    int cols{ chunkWidth ? static_cast<int>(std::ceil(platformSize.x / 100.0)) : 1 };
+    int rows{ chunkHeight ? static_cast<int>(std::ceil(platformSize.y / 100.0)) : 1 };
 
     AE::Collision *p_collision{ new AE::Collision() };
     p_collision->setSize(platformSize);
     p_collision->setGlobalPosition(gp);
     addChild(p_collision);
 
-    const AE::Vector2 ChunkSize{ 100.0, 100.0 };
+    AE::Vector2 ChunkSize{ chunkWidth ? 100.0 : platformSize.x, chunkHeight ? 100.0 : platformSize.y };
 
     for (int col = 0; col < cols; col++)
     {
