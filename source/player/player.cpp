@@ -21,6 +21,7 @@ Player::Player()
                   state = State::Climbing;
               }
           })
+    , m_onMeleeFinished([this] { mp_meleeAttack->endAttack(); })
 {
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
@@ -42,6 +43,11 @@ Player::Player()
     auto jumpRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_right.png", 3, rows, 3, 24, false) };
     auto climbLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_climb_left.png", 2, rows, 2, fps, true) };
     auto climbRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_climb_right.png", 2, rows, 2, fps, true) };
+    auto meleeLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_left.png", 3, rows, 3, 24, false) };
+    auto meleeRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_jump_right.png", 3, rows, 3, 24, false) };
+
+    meleeLeft->animationFinished.connect(m_onMeleeFinished);
+    meleeRight->animationFinished.connect(m_onMeleeFinished);
 
     mp_sprite->addAnimation("idleLeft", idleLeft);
     mp_sprite->addAnimation("idleRight", idleRight);
@@ -51,6 +57,8 @@ Player::Player()
     mp_sprite->addAnimation("jumpRight", jumpRight);
     mp_sprite->addAnimation("climbLeft", climbLeft);
     mp_sprite->addAnimation("climbRight", climbRight);
+    mp_sprite->addAnimation("meleeLeft", meleeLeft);
+    mp_sprite->addAnimation("meleeRight", meleeRight);
 
     mp_sprite->playAnimation("idleRight");
 
@@ -190,6 +198,14 @@ void Player::handleInput()
 
     if (mp_meleeAttack->doAttack(m_facingRight))
     {
+        if (m_facingRight)
+        {
+            mp_sprite->playAnimation("meleeLeft");
+        }
+        else
+        {
+            mp_sprite->playAnimation("meleeRight");
+        }
     }
     else
     {

@@ -31,6 +31,7 @@ public:
 
 private:
     void handleInput();
+    AE::Slot<> m_onMeleeFinished;
 
     static constexpr double GravityForce{ 400.0 };
     static constexpr double ClimbSpeed{ -300.0 };

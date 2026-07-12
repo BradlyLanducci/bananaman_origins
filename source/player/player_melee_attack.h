@@ -10,6 +10,7 @@ public:
     PlayerMeleeAttack();
 
     bool doAttack(bool isFacingRight);
+    void endAttack();
 
 private:
     AE::Collision *mp_meleeCollision{ nullptr };

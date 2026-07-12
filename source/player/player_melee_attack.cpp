@@ -2,6 +2,7 @@
 #include <enemies/enemy.h>
 
 #include <input/keyboard.h>
+#include "player_melee_attack.h"
 
 //------------------------------------------------------------------//
 
@@ -62,6 +63,14 @@ bool PlayerMeleeAttack::doAttack(bool isFacingRight)
     }
 
     return m_meleeing;
+}
+
+//------------------------------------------------------------------//
+
+void PlayerMeleeAttack::endAttack()
+{
+    m_meleeing = false;
+    mp_meleeCollision->setEnabled(false);
 }
 
 //------------------------------------------------------------------//
