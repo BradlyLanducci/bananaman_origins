@@ -19,7 +19,7 @@ LevelExit::LevelExit()
     addChild(mp_sprite);
     addChild(mp_collision);
 
-    mp_sprite->setTexture("assets/full_grass.png");
+    mp_sprite->setTexture("assets/level_exit.png");
     mp_sprite->setSize({ 300, 400 });
     mp_collision->setSize(mp_sprite->size());
     mp_collision->setSolid(false);

@@ -10,12 +10,14 @@
 
 BananaManOrigins::BananaManOrigins()
     : mp_camera(new AE::Camera())
-    , m_levelType(Level::Type::None)
     , m_music("assets/sfx/banana_theme.wav")
     , m_onContinueRequested([this]() { loadNextLevel(); })
 {
+    Json::Value root{ AE::FileIO::readJson("save_file.json") };
+    m_levelType = static_cast<Level::Type>(root.get("level", 0).asUInt());
+
     loadNextLevel();
-    mp_player->deserialize(AE::FileIO::readJson("save_file.json"));
+    mp_player->deserialize(root.get("player", {}));
 
     addChild(mp_camera);
 
@@ -31,8 +33,10 @@ BananaManOrigins::BananaManOrigins()
 
 BananaManOrigins::~BananaManOrigins()
 {
-    Json::Value data{ mp_player->serialize() };
-    (void)AE::FileIO::writeJson("save_file.json", data);
+    Json::Value root;
+    root["player"] = mp_player->serialize();
+    root["level"] = static_cast<int>(m_levelType);
+    (void)AE::FileIO::writeJson("save_file.json", root);
 }
 
 //------------------------------------------------------------------//
