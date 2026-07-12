@@ -8,7 +8,7 @@
 class Platform : public AE::Object
 {
 public:
-    Platform(const AE::Vector2 &platformSize);
+    Platform(const AE::Vector2 &platformSize, const std::string &texturePath = "assets/grass.png");
 
 private:
     AE::Sprite *mp_sprite{ nullptr };

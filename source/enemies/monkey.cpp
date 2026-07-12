@@ -24,23 +24,19 @@ Monkey::Monkey()
 
     addChild(p_collision);
 
-    const int numFrames{ 4 };
     const int rows{ 1 };
-    const int columns{ 4 };
     const int fps{ 8 };
-    const bool loops{ true };
-    auto idle{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_right.png", numFrames, rows, columns, fps,
-                                                 loops) };
-    auto walkLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_left.png", numFrames, rows, columns, fps,
-                                                     loops) };
-    auto walkRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_walk_right.png", numFrames, rows, columns, fps,
-                                                      loops) };
+    auto idleLeft{ std::make_shared<AE::Spritesheet>("assets/monkey_idle_left.png", 3, rows, 3, fps, true) };
+    auto idleRight{ std::make_shared<AE::Spritesheet>("assets/monkey_idle_right.png", 3, rows, 3, fps, true) };
+    auto walkLeft{ std::make_shared<AE::Spritesheet>("assets/monkey_walk_left.png", 5, rows, 5, fps, true) };
+    auto walkRight{ std::make_shared<AE::Spritesheet>("assets/monkey_walk_right.png", 5, rows, 5, fps, true) };
 
-    mp_sprite->addAnimation("idle", idle);
+    mp_sprite->addAnimation("idleLeft", idleLeft);
+    mp_sprite->addAnimation("idleRight", idleRight);
     mp_sprite->addAnimation("walkLeft", walkLeft);
     mp_sprite->addAnimation("walkRight", walkRight);
 
-    mp_sprite->playAnimation("idle");
+    mp_sprite->playAnimation("idleRight");
 
     AE::Vector2 spriteSize{ mp_sprite->size() };
     setSize(spriteSize);
