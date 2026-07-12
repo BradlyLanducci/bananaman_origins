@@ -2,6 +2,7 @@
 #include <scenes/level_1/level_1.h>
 #include <common/platform.h>
 #include <common/vine.h>
+#include <game_ui.h>
 
 #include <utilities/window.h>
 
@@ -28,6 +29,7 @@ Level1::Level1()
     , mp_monkey1(new Monkey())
     , mp_monkey2(new Monkey())
     , m_windowSizeChanged([this](AE::Vector2 newSize) { mp_skybox->setSize(newSize); })
+    , mp_levelExit(new LevelExit{ Level::Type::Level2 })
 {
     addChild(mp_skybox);
     addChild(mp_islandGround);
@@ -48,6 +50,7 @@ Level1::Level1()
     addChild(mp_monkey1);
     addChild(mp_monkey2);
     addChild(mp_cloudSpawner);
+    addChild(mp_levelExit);
 
     mp_skybox->setTexture("assets/skybox.png");
     mp_skybox->setSize(AE::Window::size());
@@ -71,6 +74,17 @@ Level1::Level1()
 
     mp_monkey1->setGlobalPosition({ 1900, 100 });
     mp_monkey2->setGlobalPosition({ 2200, 100 });
+
+    mp_levelExit->setGlobalPosition({ 2700, -200 });
+    mp_levelExit->setSize({ 100, 500 });
+}
+
+//------------------------------------------------------------------//
+
+void Level1::setUi(GameUi *p_gameUi)
+{
+    mp_gameUi = p_gameUi;
+    mp_levelExit->setUi(p_gameUi);
 }
 
 //------------------------------------------------------------------//
@@ -79,7 +93,7 @@ void Level1::setPlayer(Player *p_player)
 {
     mp_player = p_player;
     addChild(mp_player);
-    mp_player->setGlobalPosition({ 0, 200 - mp_player->size().y });
+    mp_player->setGlobalPosition({ 0, -200 });
 
     mp_monkey1->setPlayer(mp_player);
     mp_monkey2->setPlayer(mp_player);

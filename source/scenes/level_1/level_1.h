@@ -3,6 +3,7 @@
 #include <scenes/level.h>
 #include <enemies/monkey.h>
 #include <common/cloud_spawner.h>
+#include <common/level_exit.h>
 
 //------------------------------------------------------------------//
 
@@ -21,6 +22,7 @@ class Level1 final : public Level
 public:
     Level1();
 
+    void setUi(GameUi *p_gameUi) override;
     void setPlayer(Player *p_player) override;
 
 private:
@@ -43,11 +45,14 @@ private:
     Platform *mp_ground4{ nullptr };
     Platform *mp_canopy1{ nullptr };
 
+    GameUi *mp_gameUi{ nullptr };
     Player *mp_player{ nullptr };
 
     Monkey *mp_monkey1{ nullptr };
     Monkey *mp_monkey2{ nullptr };
     AE::Slot<AE::Vector2> m_windowSizeChanged;
+
+    LevelExit *mp_levelExit{ nullptr };
 };
 
 //------------------------------------------------------------------//
