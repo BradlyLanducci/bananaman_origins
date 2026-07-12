@@ -1,4 +1,4 @@
-#include <scenes/level_1/platform.h>
+#include <common/platform.h>
 
 //------------------------------------------------------------------//
 

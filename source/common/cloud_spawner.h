@@ -27,7 +27,7 @@ private:
 
     struct Cloud
     {
-        AE::Sprite *p_sprite;
+        AE::Sprite *p_sprite{ nullptr };
         double speed{};
     };
 

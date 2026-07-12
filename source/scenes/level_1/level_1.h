@@ -2,7 +2,7 @@
 
 #include <scenes/level.h>
 #include <enemies/monkey.h>
-#include <scenes/level_1/cloud_spawner.h>
+#include <common/cloud_spawner.h>
 
 //------------------------------------------------------------------//
 

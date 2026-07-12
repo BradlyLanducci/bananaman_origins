@@ -54,10 +54,11 @@ void Jumper::physicsUpdate(double delta)
 
         if (m_accumulator <= m_jumpSeconds)
         {
-            double progress{ 1.0 - (m_accumulator / m_jumpSeconds) };
-            auto gp{ mp_subject->globalPosition() };
-            gp.y -= m_jumpForce * delta * progress;
-            mp_subject->setGlobalPosition(gp);
+            mp_subject->setVelocity(mp_subject->velocity() + AE::Vector2(0, -m_jumpForce));
+            // double progress{ 1.0 - (m_accumulator / m_jumpSeconds) };
+            // auto gp{ mp_subject->globalPosition() };
+            // gp.y -= m_jumpForce * delta * progress;
+            // mp_subject->setGlobalPosition(gp);
         }
         else
         {

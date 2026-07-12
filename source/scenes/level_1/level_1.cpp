@@ -1,7 +1,7 @@
 #include <player/player.h>
 #include <scenes/level_1/level_1.h>
-#include <scenes/level_1/platform.h>
-#include <scenes/level_1/vine.h>
+#include <common/platform.h>
+#include <common/vine.h>
 
 //------------------------------------------------------------------//
 

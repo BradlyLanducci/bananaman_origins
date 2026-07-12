@@ -1,4 +1,4 @@
-#include <scenes/level_1/cloud_spawner.h>
+#include <common/cloud_spawner.h>
 
 #include <scenes/level.h>
 
@@ -33,7 +33,7 @@ void CloudSpawner::idleUpdate(Level *p_level, double deltaTime)
     {
         if (cloud.p_sprite->globalPosition().x > 4000)
         {
-            double rx{ std::uniform_real_distribution<double>{ 0, 1000.0 }(m_engine) };
+            double rx{ std::uniform_real_distribution<double>{ -1000, 0.0 }(m_engine) };
             double ry{ std::uniform_real_distribution<double>{ -500, 0.0 }(m_engine) };
             cloud.p_sprite->setGlobalPosition({ rx, ry });
         }

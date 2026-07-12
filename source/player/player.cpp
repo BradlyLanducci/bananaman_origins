@@ -1,7 +1,7 @@
 #include <player/player.h>
 #include <player/banana_projectile.h>
 #include <enemies/enemy.h>
-#include <scenes/level_1/vine.h>
+#include <common/vine.h>
 
 #include <physics/aabb.h>
 #include <utilities/type_checking.h>
@@ -14,6 +14,7 @@ Player::Player()
     , mp_sprite(new AE::AnimatedSprite())
     , mp_jumper(new Jumper(this, collision()))
     , mp_meleeAttack(new PlayerMeleeAttack())
+    , mp_bounceTimer(new AE::Timer(BounceCooldownSeconds))
     , m_onCollided(
           [this](AE::Collision *p_collision)
           {
@@ -21,7 +22,7 @@ Player::Player()
               bool isVine{ AE::TypeChecking::isType<Vine *>(p_parent) };
               if (isVine)
               {
-                  state = State::Climbing;
+                  m_isClimbing = true;
                   return;
               }
 
@@ -42,8 +43,10 @@ Player::Player()
                       offset.x = 0.0;
                   }
 
-                  if (std::abs(offset.y) > 0.0)
+                  if (std::abs(offset.y) > 0.0 && !mp_bounceTimer->running())
                   {
+                      mp_bounceTimer->start();
+                      setGlobalPosition(globalPosition() + offset);
                       int health{ p_enemy->health() };
                       p_enemy->setHealth(health - 1);
                       mp_jumper->begin(JumpSeconds, JumpForce / 2);
@@ -148,19 +151,16 @@ void Player::handleInput()
     {
         m_facingRight = false;
         vel.x = -WalkSpeed;
-        // state = State::Walking;
     }
     else if (AE::Keyboard::isPressed(AE::Keyboard::Key::Right))
     {
         m_facingRight = true;
         vel.x = WalkSpeed;
-        // state = State::Walking;
     }
     else
     {
         vel.x = 0.0;
         vel.y = 0.0;
-        // state = State::Idle;
     }
 
     auto jumpingState{ mp_jumper->state() };
@@ -184,7 +184,7 @@ void Player::handleInput()
 
     if (AE::Keyboard::isPressed(AE::Keyboard::Key::Up))
     {
-        if (state == State::Climbing)
+        if (m_isClimbing)
         {
             vel.y = ClimbSpeed;
             playAnimation("climb");
@@ -210,7 +210,7 @@ void Player::handleInput()
 
     setVelocity(vel);
 
-    state = State::Idle;
+    m_isClimbing = false;
 }
 
 //------------------------------------------------------------------//

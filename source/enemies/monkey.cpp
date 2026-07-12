@@ -1,5 +1,5 @@
 #include <enemies/monkey.h>
-#include <scenes/level_1/platform.h>
+#include <common/platform.h>
 
 #include <utilities/type_checking.h>
 #include <physics/aabb.h>

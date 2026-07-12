@@ -17,7 +17,7 @@ BananaManOrigins::BananaManOrigins()
     mp_levelContainer->setPlayer(mp_player);
 
     constexpr double CameraZoom{ 2.0 };
-    constexpr double FollowSpeed{ 0.5 };
+    constexpr double FollowSpeed{ 0.005 };
     mp_camera->setZoom({ CameraZoom, CameraZoom });
     mp_camera->follow(mp_player, FollowSpeed);
     AE::CameraManager::get().setCurrent(mp_camera);
