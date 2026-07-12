@@ -1,7 +1,5 @@
 #pragma once
 
-#include <scenes/level.h>
-
 #include <objects/collision.h>
 #include <objects/sprite.h>
 
@@ -14,7 +12,7 @@ class GameUi;
 class LevelExit : public AE::Object
 {
 public:
-    explicit LevelExit(Level::Type type);
+    explicit LevelExit();
 
     void setUi(GameUi *p_gameUi);
 

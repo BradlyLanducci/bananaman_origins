@@ -1,5 +1,5 @@
 #include <player/player.h>
-#include <scenes/level_1/level_1.h>
+#include <scenes/levels/level_1.h>
 #include <common/platform.h>
 #include <common/vine.h>
 #include <game_ui.h>
@@ -29,7 +29,7 @@ Level1::Level1()
     , mp_monkey1(new Monkey())
     , mp_monkey2(new Monkey())
     , m_windowSizeChanged([this](AE::Vector2 newSize) { mp_skybox->setSize(newSize); })
-    , mp_levelExit(new LevelExit{ Level::Type::Level2 })
+    , mp_levelExit(new LevelExit())
 {
     addChild(mp_skybox);
     addChild(mp_islandGround);

@@ -4,7 +4,7 @@
 
 //------------------------------------------------------------------//
 
-LevelExit::LevelExit(Level::Type type)
+LevelExit::LevelExit()
     : mp_sprite(new AE::Sprite())
     , mp_collision(new AE::Collision())
     , m_onCollided(

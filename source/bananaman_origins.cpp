@@ -1,5 +1,7 @@
 #include <bananaman_origins.h>
-#include <scenes/level_1/level_1.h>
+#include <scenes/levels/level_1.h>
+#include <scenes/levels/level_2.h>
+#include <scenes/levels/level_3.h>
 #include <game_ui.h>
 
 #include <utilities/file_io.h>
@@ -56,16 +58,18 @@ void BananaManOrigins::loadNextLevel()
 
     Level::Type nextLevel{ static_cast<Level::Type>(static_cast<int>(m_levelType) + 1) };
 
+    m_levelType = nextLevel;
+
     switch (nextLevel)
     {
     case Level::Type::Level1:
         mp_levelContainer = new Level1();
         break;
     case Level::Type::Level2:
-        mp_levelContainer = new Level1();
+        mp_levelContainer = new Level2();
         break;
     case Level::Type::Level3:
-        mp_levelContainer = new Level1();
+        mp_levelContainer = new Level3();
         break;
     case Level::Type::None:
     case Level::Type::End:
