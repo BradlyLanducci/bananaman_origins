@@ -1,5 +1,4 @@
 #include <enemies/monkey.h>
-#include <common/gravity.h>
 #include <scenes/level_1/platform.h>
 
 #include <utilities/type_checking.h>

@@ -1,5 +1,4 @@
 #include <player/player.h>
-#include <common/gravity.h>
 #include <scenes/level_1/vine.h>
 #include <player/banana_projectile.h>
 
@@ -12,6 +11,7 @@ Player::Player()
     : AE::Character(new AE::Collision())
     , mp_sprite(new AE::AnimatedSprite())
     , mp_jumper(new Jumper(this, collision()))
+    , mp_meleeAttack(new PlayerMeleeAttack())
     , m_onCollided(
           [this](AE::Collision *p_collision)
           {
@@ -30,6 +30,7 @@ Player::Player()
     addChild(p_collision);
     addChild(mp_sprite);
     addChild(mp_jumper);
+    addChild(mp_meleeAttack);
 
     const int rows{ 1 };
     const int fps{ 8 };
@@ -57,6 +58,8 @@ Player::Player()
     setSize(spriteSize);
     p_collision->setPosition({ spriteSize.x / 4, 0 });
     p_collision->setSize({ spriteSize.x / 2, spriteSize.y });
+
+    mp_meleeAttack->setSize({ spriteSize.x / 2, spriteSize.y });
 }
 
 //------------------------------------------------------------------//
@@ -144,15 +147,6 @@ void Player::handleInput()
         }
     }
 
-    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Enter) && !m_shooting)
-    {
-        shoot();
-    }
-    else if (!AE::Keyboard::isPressed(AE::Keyboard::Key::Enter))
-    {
-        m_shooting = false;
-    }
-
     if (AE::Keyboard::isPressed(AE::Keyboard::Key::Up))
     {
         if (state == State::Climbing)
@@ -194,30 +188,16 @@ void Player::handleInput()
         }
     }
 
+    if (mp_meleeAttack->doAttack(m_facingRight))
+    {
+    }
+    else
+    {
+    }
+
     setVelocity(vel);
 
     state = State::Idle;
-}
-
-//------------------------------------------------------------------//
-
-void Player::shoot()
-{
-    if (!m_shooting)
-    {
-        m_shooting = true;
-        auto p_parent{ parent() };
-        if (p_parent)
-        {
-            AE::Vector2 direction{ m_facingRight ? AE::Vector2(1.0, 0.0) : AE::Vector2(-1.0, 0.0) };
-            double speed{ 500.0 };
-            BananaProjectile *p_projectile{ new BananaProjectile(direction, speed) };
-            AE::Vector2 initialPosition{ globalPosition() +
-                                         (m_facingRight ? AE::Vector2(80, 42.5) : AE::Vector2(0, 42.5)) };
-            p_projectile->setGlobalPosition(initialPosition);
-            p_parent->addChild(p_projectile);
-        }
-    }
 }
 
 //------------------------------------------------------------------//

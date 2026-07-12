@@ -1,11 +1,13 @@
 #pragma once
 
-#include <common/jumper.h>
+#include <player/jumper.h>
+#include <player/player_melee_attack.h>
 
-#include <json/json.h>
 #include <utilities/signal.h>
 #include <objects/character.h>
 #include <objects/animated_sprite.h>
+
+#include <json/json.h>
 
 //------------------------------------------------------------------//
 
@@ -29,7 +31,6 @@ public:
 
 private:
     void handleInput();
-    void shoot();
 
     static constexpr double GravityForce{ 400.0 };
     static constexpr double ClimbSpeed{ -300.0 };
@@ -38,11 +39,10 @@ private:
     static constexpr double JumpForce{ 1000.0 };
 
     AE::AnimatedSprite *mp_sprite{ nullptr };
-
     Jumper *mp_jumper{ nullptr };
+    PlayerMeleeAttack *mp_meleeAttack;
 
     bool m_facingRight{ true };
-    bool m_shooting{ false };
 
     AE::Slot<AE::Collision *> m_onCollided;
 };
