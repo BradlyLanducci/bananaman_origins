@@ -1,7 +1,9 @@
 #include <player/player.h>
-#include <scenes/level_1/vine.h>
 #include <player/banana_projectile.h>
+#include <enemies/enemy.h>
+#include <scenes/level_1/vine.h>
 
+#include <physics/aabb.h>
 #include <utilities/type_checking.h>
 #include <input/keyboard.h>
 
@@ -15,10 +17,37 @@ Player::Player()
     , m_onCollided(
           [this](AE::Collision *p_collision)
           {
-              bool isVine{ AE::TypeChecking::isType<Vine *>(p_collision->parent()) };
+              Object *p_parent{ p_collision->parent() };
+              bool isVine{ AE::TypeChecking::isType<Vine *>(p_parent) };
               if (isVine)
               {
                   state = State::Climbing;
+                  return;
+              }
+
+              Enemy *p_enemy{ dynamic_cast<Enemy *>(p_parent) };
+              if (p_enemy)
+              {
+                  AE::Rect r1{ collision()->rect() };
+                  AE::Rect r2{ p_collision->rect() };
+
+                  AE::Vector2 offset{ AE::AABB::collide(r1, r2) };
+                  bool resolveHorizontal{ std::abs(offset.x) < std::abs(offset.y) };
+                  if (resolveHorizontal)
+                  {
+                      offset.y = 0.0;
+                  }
+                  else
+                  {
+                      offset.x = 0.0;
+                  }
+
+                  if (std::abs(offset.y) > 0.0)
+                  {
+                      int health{ p_enemy->health() };
+                      p_enemy->setHealth(health - 1);
+                      mp_jumper->begin(JumpSeconds, JumpForce / 2);
+                  }
               }
           })
     , m_onMeleeFinished(

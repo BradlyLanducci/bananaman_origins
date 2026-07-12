@@ -32,11 +32,7 @@ BananaProjectile::BananaProjectile(AE::Vector2 direction, double speed)
               {
                   int health{ p_enemy->health() };
                   health -= 1;
-                  if (health <= 0)
-                  {
-                      p_collision->parent()->queueDelete();
-                  }
-                  else
+                  if (health > 0)
                   {
                       p_enemy->setHealth(health);
                   }

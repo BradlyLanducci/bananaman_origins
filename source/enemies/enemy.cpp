@@ -23,10 +23,18 @@ void Enemy::setHealth(int health)
 {
     m_health = health;
 
-    double percentLeft{ static_cast<double>(m_health / static_cast<double>(m_maxHealth)) };
-    int healthIndex{ static_cast<int>(
-        std::floor(percentLeft * static_cast<double>(magic_enum::enum_count<Health>()))) };
-    mp_sprite->shader().p_fragmentShader->setVec4("healthTint", HealthTints.at(static_cast<Health>(healthIndex)));
+    if (m_health >= 0)
+    {
+        double percentLeft{ static_cast<double>(m_health / static_cast<double>(m_maxHealth)) };
+        int healthIndex{ static_cast<int>(
+            std::floor(percentLeft * static_cast<double>(magic_enum::enum_count<Health>()))) };
+        mp_sprite->shader().p_fragmentShader->setVec4("healthTint", HealthTints.at(static_cast<Health>(healthIndex)));
+
+        if (m_health <= 0)
+        {
+            queueDelete();
+        }
+    }
 }
 
 //------------------------------------------------------------------//

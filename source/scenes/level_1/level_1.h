@@ -2,6 +2,7 @@
 
 #include <scenes/level.h>
 #include <enemies/monkey.h>
+#include <scenes/level_1/cloud_spawner.h>
 
 //------------------------------------------------------------------//
 
@@ -24,6 +25,7 @@ public:
 
 private:
     AE::Sprite *mp_skybox{ nullptr };
+    CloudSpawner *mp_cloudSpawner{ nullptr };
 
     Platform *mp_islandGround{ nullptr };
     Platform *mp_entranceTop{ nullptr };
@@ -31,9 +33,11 @@ private:
     Platform *mp_ground1{ nullptr };
     Platform *mp_tower{ nullptr };
     Platform *mp_towerTopLeft{ nullptr };
+    Platform *mp_towerTopRight{ nullptr };
+    AE::AnimatedSprite *mp_leaves1{ nullptr };
+    AE::AnimatedSprite *mp_leaves2{ nullptr };
     Vine *mp_vine1{ nullptr };
     Vine *mp_vine2{ nullptr };
-    Platform *mp_towerTopRight{ nullptr };
     Platform *mp_ground2{ nullptr };
     Platform *mp_ground3{ nullptr };
     Platform *mp_ground4{ nullptr };
