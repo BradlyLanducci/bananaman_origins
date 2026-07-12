@@ -33,6 +33,9 @@ private:
     AE::AudioPlayer m_music;
 
     AE::Slot<> m_onContinueRequested;
+    AE::Slot<> m_playerDied;
+
+    bool m_loading{ false };
 };
 
 //------------------------------------------------------------------//

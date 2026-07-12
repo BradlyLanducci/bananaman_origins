@@ -14,6 +14,7 @@ namespace AE
 
 class Platform;
 class Vine;
+class Water;
 
 //------------------------------------------------------------------//
 
@@ -28,12 +29,17 @@ public:
 private:
     AE::Sprite *mp_skybox{ nullptr };
     CloudSpawner *mp_cloudSpawner{ nullptr };
-    Platform *mp_islandGround{ nullptr };
+    Platform *mp_islandGround1{ nullptr };
+    Platform *mp_islandGround2{ nullptr };
+    Platform *mp_islandGround3{ nullptr };
+    Water *mp_water{ nullptr };
+    Platform *mp_islandGround4{ nullptr };
 
     GameUi *mp_gameUi{ nullptr };
     Player *mp_player{ nullptr };
 
     AE::Slot<AE::Vector2> m_windowSizeChanged;
+    AE::Slot<AE::Collision *> m_onWaterCollision;
 
     LevelExit *mp_levelExit{ nullptr };
 };

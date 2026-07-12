@@ -74,6 +74,7 @@ Player::Player()
     addChild(mp_sprite);
     addChild(mp_jumper);
     addChild(mp_meleeAttack);
+    addChild(mp_bounceTimer);
 
     const int rows{ 1 };
     const int fps{ 8 };
@@ -242,6 +243,7 @@ void Player::healthChanged(int health)
 {
     if (health <= 0)
     {
+        died.emit();
     }
 }
 

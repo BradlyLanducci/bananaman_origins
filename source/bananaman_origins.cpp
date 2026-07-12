@@ -4,6 +4,7 @@
 #include <scenes/levels/level_3.h>
 #include <game_ui.h>
 
+#include <idle/idle_manager.h>
 #include <utilities/file_io.h>
 
 //------------------------------------------------------------------//
@@ -12,6 +13,15 @@ BananaManOrigins::BananaManOrigins()
     : mp_camera(new AE::Camera())
     , m_music("assets/sfx/banana_theme.wav")
     , m_onContinueRequested([this]() { loadNextLevel(); })
+    , m_playerDied(
+          [this]()
+          {
+              if (!m_loading)
+              {
+                  m_levelType = Level::Type::None;
+                  loadNextLevel();
+              }
+          })
 {
     Json::Value root{ AE::FileIO::readJson("save_file.json") };
     m_levelType = static_cast<Level::Type>(root.get("level", 0).asUInt());
@@ -52,12 +62,18 @@ void BananaManOrigins::setUi(GameUi *p_gameUi)
 
 void BananaManOrigins::loadNextLevel()
 {
+    constexpr double CameraFollowSpeed{ 0.005 };
+
+    m_loading = true;
+
+    AE::IdleManager::get().callNextFrame([this]() { m_loading = false; });
+
     if (mp_levelContainer)
     {
         removeChild(mp_levelContainer);
 
-        delete mp_levelContainer;
-        mp_levelContainer = nullptr;
+        mp_levelContainer->queueDelete();
+        mp_camera->follow(nullptr, CameraFollowSpeed);
     }
 
     Level::Type nextLevel{ static_cast<Level::Type>(static_cast<int>(m_levelType) + 1) };
@@ -81,16 +97,13 @@ void BananaManOrigins::loadNextLevel()
         break;
     }
 
-    if (mp_levelContainer)
-    {
-        addChild(mp_levelContainer);
-        mp_player = new Player();
-        mp_levelContainer->setPlayer(mp_player);
-        mp_levelContainer->setUi(mp_gameUi);
+    addChild(mp_levelContainer);
+    mp_player = new Player();
+    mp_player->died.connect(m_playerDied);
+    mp_levelContainer->setPlayer(mp_player);
+    mp_levelContainer->setUi(mp_gameUi);
 
-        constexpr double FollowSpeed{ 0.005 };
-        mp_camera->follow(mp_player, FollowSpeed);
-    }
+    mp_camera->follow(mp_player, CameraFollowSpeed);
 }
 
 //------------------------------------------------------------------//

@@ -26,6 +26,8 @@ public:
     Json::Value serialize();
     void deserialize(const Json::Value &data);
 
+    AE::Signal<> died;
+
 private:
     void handleInput();
     void playAnimation(std::string animation, bool force = false);
