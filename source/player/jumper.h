@@ -6,7 +6,7 @@
 
 //------------------------------------------------------------------//
 
-class Jumper : public AE::Object
+class Jumper final : public AE::Object
 {
 public:
     Jumper(AE::Character *p_subject, AE::Collision *p_subject_collision);

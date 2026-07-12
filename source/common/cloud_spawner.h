@@ -11,7 +11,7 @@ class Level;
 
 //------------------------------------------------------------------//
 
-class CloudSpawner : public AE::Object
+class CloudSpawner final : public AE::Object
 {
 public:
     CloudSpawner(Level *p_level);

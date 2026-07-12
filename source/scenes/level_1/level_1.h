@@ -16,7 +16,7 @@ class Vine;
 
 //------------------------------------------------------------------//
 
-class Level1 : public Level
+class Level1 final : public Level
 {
 public:
     Level1();

@@ -1,5 +1,6 @@
 #include <enemies/monkey.h>
 #include <common/platform.h>
+#include <player/player.h>
 
 #include <utilities/type_checking.h>
 #include <physics/aabb.h>
@@ -49,16 +50,20 @@ Monkey::Monkey()
 void Monkey::physicsUpdate(double deltaTime)
 {
     AE::Vector2 vel;
-    if (m_facingRight)
+
+    double distanceToPlayer{ globalPosition().distanceTo(mp_player->globalPosition()) };
+    if (distanceToPlayer < SurroundDistance)
     {
-        mp_sprite->playAnimation("walkRight");
-        vel.x = WalkSpeed;
+        AE::Vector2 directionToPlayer{ globalPosition().directionTo(mp_player->globalPosition()) };
+        bool facingRight{ directionToPlayer.x > 0.0 ? true : false };
+        vel.x = facingRight ? WalkSpeed : -WalkSpeed;
+        m_facingRight = facingRight;
     }
     else
     {
-        mp_sprite->playAnimation("walkLeft");
-        vel.x = -WalkSpeed;
+        vel.x = m_facingRight ? WalkSpeed : -WalkSpeed;
     }
+    AnimationHelpers::playAnimation(mp_sprite, "walk", m_facingRight);
 
     vel.y = GravityForce;
 

@@ -8,7 +8,7 @@
 
 //------------------------------------------------------------------//
 
-class BananaProjectile : public AE::Sprite
+class BananaProjectile final : public AE::Sprite
 {
 public:
     BananaProjectile(AE::Vector2 direction, double speed);

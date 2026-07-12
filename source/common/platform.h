@@ -5,7 +5,7 @@
 
 //------------------------------------------------------------------//
 
-class Platform : public AE::Object
+class Platform final : public AE::Object
 {
 public:
     Platform(const AE::Vector2 &platformSize, const AE::Vector2 &gp,

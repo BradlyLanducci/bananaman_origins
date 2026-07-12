@@ -1,4 +1,5 @@
 #include <enemies/enemy.h>
+#include <player/player.h>
 
 //------------------------------------------------------------------//
 
@@ -42,6 +43,13 @@ void Enemy::setHealth(int health)
 void Enemy::setMaxHealth(int maxHealth)
 {
     m_maxHealth = maxHealth;
+}
+
+//------------------------------------------------------------------//
+
+void Enemy::setPlayer(Player *p_player)
+{
+    mp_player = p_player;
 }
 
 //------------------------------------------------------------------//

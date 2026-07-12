@@ -4,7 +4,7 @@
 
 //------------------------------------------------------------------//
 
-class PlayerMeleeAttack : public AE::Object
+class PlayerMeleeAttack final : public AE::Object
 {
 public:
     PlayerMeleeAttack();

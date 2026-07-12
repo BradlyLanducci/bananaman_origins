@@ -1,12 +1,17 @@
 #pragma once
 
 #include <enemies/enemy.h>
+#include <common/animation_helpers.h>
 
 #include <utilities/signal.h>
 
 //------------------------------------------------------------------//
 
-class Monkey : public Enemy
+class Player;
+
+//------------------------------------------------------------------//
+
+class Monkey final : public Enemy
 {
 public:
     Monkey();
@@ -22,6 +27,8 @@ public:
 private:
     static constexpr double GravityForce{ 400.0 };
     static constexpr double WalkSpeed{ 100.0 };
+    static constexpr double SurroundDistance{ 200.0 };
+    static constexpr double AttackDistance{ 50.0 };
 
     bool m_facingRight{ true };
 

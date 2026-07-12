@@ -9,7 +9,7 @@
 
 //------------------------------------------------------------------//
 
-class RandomSfx : public AE::Object
+class RandomSfx final : public AE::Object
 {
 public:
     RandomSfx(const std::vector<std::string> &sounds);

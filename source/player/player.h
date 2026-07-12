@@ -13,7 +13,7 @@
 
 //------------------------------------------------------------------//
 
-class Player : public AE::Character
+class Player final : public AE::Character
 {
 public:
     Player();

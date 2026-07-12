@@ -5,6 +5,10 @@
 
 //------------------------------------------------------------------//
 
+class Player;
+
+//------------------------------------------------------------------//
+
 class Enemy : public AE::Character
 {
 public:
@@ -17,7 +21,10 @@ public:
     void setHealth(int health);
     void setMaxHealth(int maxHealth);
 
+    void setPlayer(Player *p_player);
+
 protected:
+    Player *mp_player{ nullptr };
     AE::AnimatedSprite *mp_sprite{ nullptr };
 
 private:

@@ -77,6 +77,9 @@ void Level1::setPlayer(Player *p_player)
     mp_player = p_player;
     addChild(mp_player);
     mp_player->setGlobalPosition({ 0, 200 - mp_player->size().y });
+
+    mp_monkey1->setPlayer(mp_player);
+    mp_monkey2->setPlayer(mp_player);
 }
 
 //------------------------------------------------------------------//

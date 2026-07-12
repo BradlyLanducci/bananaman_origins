@@ -5,7 +5,7 @@
 
 //------------------------------------------------------------------//
 
-class Vine : public AE::Object
+class Vine final : public AE::Object
 {
 public:
     Vine(double vineHeight);
