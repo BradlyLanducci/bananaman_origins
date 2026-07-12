@@ -7,19 +7,19 @@
 
 Level1::Level1()
     : mp_skybox(new AE::Sprite)
-    , mp_islandGround(new Platform{ { 4000, 300 } })
-    , mp_entranceTop(new Platform{ { { 300, 75 } } })
-    , mp_entranceBottom(new Platform{ { { 250, 75 } } })
-    , mp_ground1(new Platform{ { 300, 100 } })
-    , mp_tower(new Platform{ { { 100, 500 } }, "assets/tree_trunk.png" })
-    , mp_towerTopLeft(new Platform{ { { 100, 100 } } })
+    , mp_islandGround(new Platform{ { 4000, 300 }, { 0, 300 } })
+    , mp_entranceTop(new Platform{ { { 300, 100 } }, { 0, 100 } })
+    , mp_entranceBottom(new Platform{ { { 200, 200 } }, { 0, 200 } })
+    , mp_ground1(new Platform{ { 300, 100 }, { 600, 200 } })
+    , mp_tower(new Platform{ { { 100, 500 } }, { 1200, -200 }, "assets/tree_trunk.png" })
+    , mp_towerTopLeft(new Platform{ { { 100, 100 } }, { 1100, -475 } })
     , mp_vine1(new Vine{ 450 })
-    , mp_towerTopRight(new Platform{ { { 100, 100 } } })
+    , mp_towerTopRight(new Platform{ { { 100, 100 } }, { 1300, -475 } })
     , mp_vine2(new Vine{ 450 })
-    , mp_ground2(new Platform{ { 2000, 100 } })
-    , mp_ground3(new Platform{ { 200, 100 } })
-    , mp_ground4(new Platform{ { 100, 100 } })
-    , mp_canopy1(new Platform{ { 300, 50 } })
+    , mp_ground2(new Platform{ { 2000, 100 }, { 1500, 200 } })
+    , mp_ground3(new Platform{ { 200, 100 }, { 1700, 100 } })
+    , mp_ground4(new Platform{ { 100, 100 }, { 2300, 100 } })
+    , mp_canopy1(new Platform{ { 300, 50 }, { 1500, -300 } })
     , mp_monkey1(new Monkey())
     , mp_monkey2(new Monkey())
 {
@@ -45,19 +45,8 @@ Level1::Level1()
     mp_skybox->setScale({ 2.0, 2.0 });
     mp_skybox->setGlobalPosition({ -1600 * 2 / 2, -900 * 2 / 2 });
 
-    mp_islandGround->setGlobalPosition(AE::Vector2{ 0, 300 });
-    mp_entranceTop->setGlobalPosition(AE::Vector2{ 0, 150 });
-    mp_entranceBottom->setGlobalPosition(AE::Vector2{ 0, 225 });
-    mp_ground1->setGlobalPosition(AE::Vector2{ 600, 200 });
-    mp_tower->setGlobalPosition(AE::Vector2{ 1200, -200 });
-    mp_towerTopLeft->setGlobalPosition(AE::Vector2{ 1100, -475 });
     mp_vine1->setGlobalPosition(AE::Vector2{ 1145, -375 });
-    mp_towerTopRight->setGlobalPosition(AE::Vector2{ 1300, -475 });
     mp_vine2->setGlobalPosition(AE::Vector2{ 1345, -375 });
-    mp_ground2->setGlobalPosition(AE::Vector2{ 1500, 200 });
-    mp_ground3->setGlobalPosition(AE::Vector2{ 1700, 100 });
-    mp_ground4->setGlobalPosition(AE::Vector2{ 2300, 100 });
-    mp_canopy1->setGlobalPosition(AE::Vector2{ 1500, -300 });
 
     mp_monkey1->setGlobalPosition({ 1900, 100 });
     mp_monkey2->setGlobalPosition({ 2200, 100 });

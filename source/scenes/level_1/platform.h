@@ -8,11 +8,8 @@
 class Platform : public AE::Object
 {
 public:
-    Platform(const AE::Vector2 &platformSize, const std::string &texturePath = "assets/sand.png");
-
-private:
-    AE::Sprite *mp_sprite{ nullptr };
-    AE::Collision *mp_collision{ nullptr };
+    Platform(const AE::Vector2 &platformSize, const AE::Vector2 &gp,
+             const std::string &topTexturePath = "assets/sand.png", const std::string &bottomTexturePath = "");
 };
 
 //------------------------------------------------------------------//
