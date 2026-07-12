@@ -31,6 +31,8 @@ public:
 
 private:
     void handleInput();
+    void playAnimation(std::string animation, bool force = false);
+
     AE::Slot<> m_onMeleeFinished;
 
     static constexpr double GravityForce{ 400.0 };

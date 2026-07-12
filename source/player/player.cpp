@@ -21,7 +21,12 @@ Player::Player()
                   state = State::Climbing;
               }
           })
-    , m_onMeleeFinished([this] { mp_meleeAttack->endAttack(); })
+    , m_onMeleeFinished(
+          [this]
+          {
+              mp_meleeAttack->endAttack();
+              playAnimation("idle");
+          })
 {
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
@@ -132,25 +137,11 @@ void Player::handleInput()
         {
             if (vel.x != 0.0)
             {
-                if (m_facingRight)
-                {
-                    mp_sprite->playAnimation("walkRight");
-                }
-                else
-                {
-                    mp_sprite->playAnimation("walkLeft");
-                }
+                playAnimation("walk");
             }
             else
             {
-                if (m_facingRight)
-                {
-                    mp_sprite->playAnimation("idleRight");
-                }
-                else
-                {
-                    mp_sprite->playAnimation("idleLeft");
-                }
+                playAnimation("idle");
             }
         }
     }
@@ -160,60 +151,49 @@ void Player::handleInput()
         if (state == State::Climbing)
         {
             vel.y = ClimbSpeed;
-            if (m_facingRight)
-            {
-                mp_sprite->playAnimation("climbRight");
-            }
-            else
-            {
-                mp_sprite->playAnimation("climbLeft");
-            }
+            playAnimation("climb");
         }
         else if (jumpingState == Jumper::State::Idle)
         {
-            mp_sprite->stopAnimation();
-            if (m_facingRight)
-            {
-                mp_sprite->playAnimation("jumpRight");
-            }
-            else
-            {
-                mp_sprite->playAnimation("jumpLeft");
-            }
+            playAnimation("jump");
 
             mp_jumper->begin(JumpSeconds, JumpForce);
         }
         else if (jumpingState != Jumper::State::Jumping)
         {
-            if (m_facingRight)
-            {
-                mp_sprite->playAnimation("idleRight");
-            }
-            else
-            {
-                mp_sprite->playAnimation("idleLeft");
-            }
+            playAnimation("idle");
         }
     }
 
     if (mp_meleeAttack->doAttack(m_facingRight))
     {
-        if (m_facingRight)
-        {
-            mp_sprite->playAnimation("meleeLeft");
-        }
-        else
-        {
-            mp_sprite->playAnimation("meleeRight");
-        }
-    }
-    else
-    {
+        playAnimation("melee", true);
     }
 
     setVelocity(vel);
 
     state = State::Idle;
+}
+
+//------------------------------------------------------------------//
+
+void Player::playAnimation(std::string animation, bool force)
+{
+    if (!force && mp_meleeAttack->isAttacking())
+    {
+        return;
+    }
+
+    if (m_facingRight)
+    {
+        animation += "Right";
+    }
+    else
+    {
+        animation += "Left";
+    }
+
+    mp_sprite->playAnimation(animation);
 }
 
 //------------------------------------------------------------------//

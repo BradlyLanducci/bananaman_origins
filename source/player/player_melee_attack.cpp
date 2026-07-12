@@ -41,6 +41,13 @@ PlayerMeleeAttack::PlayerMeleeAttack()
 
 //------------------------------------------------------------------//
 
+bool PlayerMeleeAttack::isAttacking() const
+{
+    return m_meleeing;
+}
+
+//------------------------------------------------------------------//
+
 bool PlayerMeleeAttack::doAttack(bool isFacingRight)
 {
     if (AE::Keyboard::isPressed(AE::Keyboard::Key::Enter) && !m_meleeing)
@@ -56,10 +63,6 @@ bool PlayerMeleeAttack::doAttack(bool isFacingRight)
         {
             setPosition({ -25, 0 });
         }
-    }
-    else if (!AE::Keyboard::isPressed(AE::Keyboard::Key::Enter))
-    {
-        m_meleeing = false;
     }
 
     return m_meleeing;

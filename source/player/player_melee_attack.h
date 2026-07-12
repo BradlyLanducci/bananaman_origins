@@ -9,6 +9,8 @@ class PlayerMeleeAttack : public AE::Object
 public:
     PlayerMeleeAttack();
 
+    bool isAttacking() const;
+
     bool doAttack(bool isFacingRight);
     void endAttack();
 
