@@ -39,6 +39,7 @@ private:
     Vine *mp_vine2{ nullptr };
     Vine *mp_vine3{ nullptr };
     Platform *mp_trunk1{ nullptr };
+    Platform *mp_trunk3{ nullptr };
     Platform *mp_platform2{ nullptr };
     Platform *mp_platform3{ nullptr };
     Platform *mp_platform4{ nullptr };

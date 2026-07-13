@@ -78,7 +78,6 @@ Level1::Level1()
     const int fps{ 2 };
     auto leaves1{ std::make_shared<AE::Spritesheet>("assets/leaves.png", 2, rows, 2, fps, true) };
     auto leaves2{ std::make_shared<AE::Spritesheet>("assets/leaves.png", 2, rows, 2, fps, true) };
-
     mp_leaves1->setGlobalPosition({ 1100, -475 });
     mp_leaves2->setGlobalPosition({ 1300, -475 });
     mp_leaves1->addAnimation("leaves", leaves1);

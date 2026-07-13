@@ -24,7 +24,7 @@ public:
     {
         int health{ PlayerMaxHealth };
         int numCoconuts{ PlayerMaxCoconuts };
-        bool hasCoconut{ true };
+        bool hasCoconut{ false };
 
         void reset()
         {
@@ -75,7 +75,7 @@ private:
 
     bool m_facingRight{ true };
     bool m_isClimbing{ false };
-    bool m_shooting{ false };
+    bool m_attacking{ false };
 
     AE::Timer *mp_bounceTimer{ nullptr };
     AE::Timer *mp_coconutTimer{ nullptr };

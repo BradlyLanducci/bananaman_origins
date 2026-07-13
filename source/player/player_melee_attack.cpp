@@ -16,14 +16,7 @@ PlayerMeleeAttack::PlayerMeleeAttack()
               {
                   int health{ p_enemy->health() };
                   health -= 1;
-                  if (health <= 0)
-                  {
-                      p_collision->parent()->queueDelete();
-                  }
-                  else
-                  {
-                      p_enemy->setHealth(health);
-                  }
+                  p_enemy->setHealth(health);
 
                   mp_meleeCollision->setEnabled(false);
               }

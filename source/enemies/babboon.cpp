@@ -36,7 +36,7 @@ Babboon::Babboon()
 {
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
-    setMaxHealth(10);
+    setMaxHealth(5);
 
     AE::Collision *p_collision{ collision() };
 
@@ -53,8 +53,8 @@ Babboon::Babboon()
     auto walkRight{ std::make_shared<AE::Spritesheet>("assets/babboon_walk_right.png", 5, rows, 5, fps, true) };
     auto attackLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_melee_left.png", 11, rows, 11, fps, false) };
     auto attackRight{ std::make_shared<AE::Spritesheet>("assets/babboon_melee_right.png", 11, rows, 11, fps, false) };
-    auto rangedLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_left.png", 11, rows, 11, fps, false) };
-    auto rangedRight{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_right.png", 11, rows, 11, fps, false) };
+    auto rangedLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_left.png", 4, rows, 4, 16, false) };
+    auto rangedRight{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_right.png", 4, rows, 4, 16, false) };
 
     attackLeft->animationFinished.connect(m_attackFinished);
     attackRight->animationFinished.connect(m_attackFinished);
@@ -144,6 +144,8 @@ void Babboon::shootBanana()
     auto p_parent{ parent() };
     if (p_parent)
     {
+        m_isAttacking = true;
+        AnimationHelpers::playAnimation(mp_sprite, "ranged", m_facingRight);
         AE::Vector2 direction{ m_facingRight ? AE::Vector2(1.0, 0.0) : AE::Vector2(-1.0, 0.0) };
         double speed{ 500.0 };
         BananaProjectile *p_projectile{ new BananaProjectile(direction, speed) };

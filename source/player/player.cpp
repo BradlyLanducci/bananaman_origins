@@ -59,6 +59,7 @@ Player::Player(Stats &stats)
     , m_onMeleeFinished(
           [this]
           {
+              m_attacking = false;
               mp_meleeAttack->endAttack();
               playAnimation("idle");
           })
@@ -104,9 +105,14 @@ Player::Player(Stats &stats)
     auto climbRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_climb_right.png", 2, rows, 2, fps, true) };
     auto meleeLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_melee_left.png", 7, rows, 7, 16, false) };
     auto meleeRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_melee_right.png", 7, rows, 7, 16, false) };
+    auto rangedLeft{ std::make_shared<AE::Spritesheet>("assets/banana_boy_ranged_left.png", 12, rows, 12, 32, false) };
+    auto rangedRight{ std::make_shared<AE::Spritesheet>("assets/banana_boy_ranged_right.png", 12, rows, 12, 32,
+                                                        false) };
 
     meleeLeft->animationFinished.connect(m_onMeleeFinished);
     meleeRight->animationFinished.connect(m_onMeleeFinished);
+    rangedLeft->animationFinished.connect(m_onMeleeFinished);
+    rangedRight->animationFinished.connect(m_onMeleeFinished);
 
     mp_sprite->addAnimation("idleLeft", idleLeft);
     mp_sprite->addAnimation("idleRight", idleRight);
@@ -118,6 +124,8 @@ Player::Player(Stats &stats)
     mp_sprite->addAnimation("climbRight", climbRight);
     mp_sprite->addAnimation("meleeLeft", meleeLeft);
     mp_sprite->addAnimation("meleeRight", meleeRight);
+    mp_sprite->addAnimation("rangedLeft", rangedLeft);
+    mp_sprite->addAnimation("rangedRight", rangedRight);
 
     mp_sprite->playAnimation("idleRight");
 
@@ -162,6 +170,10 @@ void Player::physicsUpdate(double deltaTime)
 
 void Player::handleInput()
 {
+    if (m_attacking)
+    {
+        return;
+    }
     /*
         Apply velocity and set animation based on input
     */
@@ -231,10 +243,6 @@ void Player::handleInput()
     {
         shootCoconut();
     }
-    else if (m_stats.hasCoconut && !AE::Keyboard::isPressed(AE::Keyboard::Key::C))
-    {
-        m_shooting = false;
-    }
 
     setVelocity(vel);
 
@@ -300,12 +308,12 @@ void Player::healthChanged(int health)
 
 void Player::shootCoconut()
 {
-    if (!m_shooting && m_stats.numCoconuts > 0)
+    if (!m_attacking && m_stats.numCoconuts > 0)
     {
         auto p_parent{ parent() };
         if (p_parent)
         {
-            m_shooting = true;
+            m_attacking = true;
 
             m_stats.numCoconuts -= 1;
 
@@ -317,6 +325,7 @@ void Player::shootCoconut()
             AE::Vector2 initialPosition{ globalPosition() + (m_facingRight ? AE::Vector2(60, 0) : AE::Vector2()) };
             p_projectile->setGlobalPosition(initialPosition);
             p_parent->addChild(p_projectile);
+            playAnimation("ranged");
         }
     }
 }

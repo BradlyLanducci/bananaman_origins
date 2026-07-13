@@ -23,6 +23,7 @@ Level2::Level2()
     , mp_vine2(new Vine(200.0))
     , mp_vine3(new Vine(150.0))
     , mp_trunk1(new Platform{ { 100, 300 }, { 2400, 0 }, "assets/tree_trunk.png" })
+    , mp_trunk3(new Platform{ { 100, 300 }, { -100, 0 }, "assets/tree_trunk.png" })
     , mp_platform2(new Platform{ { 100, 100 }, { 2500, -200 } })
     , mp_platform3(new Platform{ { 100, 100 }, { 1800, -300 } })
     , mp_platform4(new Platform{ { 100, 100 }, { 1500, -150 } })
@@ -70,6 +71,8 @@ Level2::Level2()
     addChild(mp_vine2);
     addChild(mp_vine3);
     addChild(mp_trunk1);
+    addChild(mp_trunk2);
+    addChild(mp_trunk3);
     addChild(mp_platform2);
     addChild(mp_platform3);
     addChild(mp_platform4);
@@ -88,7 +91,6 @@ Level2::Level2()
     addChild(mp_monkey4);
     addChild(mp_monkey5);
     addChild(mp_levelExit);
-    addChild(mp_trunk2);
 
     mp_skybox->setTexture("assets/skybox.png");
     mp_skybox->setSize(AE::Window::size());
