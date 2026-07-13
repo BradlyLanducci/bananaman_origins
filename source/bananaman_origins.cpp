@@ -101,6 +101,8 @@ void BananaManOrigins::loadNextLevel()
     mp_gameUi = new GameUi();
     addChild(mp_gameUi);
 
+    mp_gameUi->continueRequest.connect(m_onContinueRequested);
+
     mp_gameUi->connectPlayer(mp_player);
     mp_levelContainer->setUi(mp_gameUi);
 
