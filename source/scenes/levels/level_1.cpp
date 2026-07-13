@@ -11,9 +11,9 @@
 Level1::Level1()
     : mp_skybox(new AE::Sprite)
     , mp_cloudSpawner(new CloudSpawner(this))
+    , mp_water(new Water({ 1000, 300 }, { -1000, 295 }))
     , mp_islandGround(new Platform{ { 4000, 300 }, { 0, 300 } })
-    , mp_entranceTop(new Platform{ { { 300, 100 } }, { 0, 100 } })
-    , mp_entranceBottom(new Platform{ { { 200, 200 } }, { 0, 200 } })
+    , mp_entrance(new Platform{ { { 200, 200 } }, { 0, 200 } })
     , mp_ground1(new Platform{ { 300, 100 }, { 600, 200 } })
     , mp_tower(new Platform{ { { 100, 500 } }, { 1200, -200 }, "assets/tree_trunk.png" })
     , mp_towerTopLeft(new Platform{ { { 100, 100 } }, { 1100, -475 } })
@@ -30,11 +30,27 @@ Level1::Level1()
     , mp_monkey2(new Monkey())
     , m_windowSizeChanged([this](AE::Vector2 newSize) { mp_skybox->setSize(newSize); })
     , mp_levelExit(new LevelExit())
+    , m_onWaterCollision(
+          [this](AE::Collision *p_collision)
+          {
+              Enemy *p_enemy{ dynamic_cast<Enemy *>(p_collision->parent()) };
+              if (p_enemy)
+              {
+                  p_enemy->queueDelete();
+              }
+              else
+              {
+                  Player *p_player{ dynamic_cast<Player *>(p_collision->parent()) };
+                  if (p_player)
+                  {
+                      p_player->died.emit();
+                  }
+              }
+          })
 {
     addChild(mp_skybox);
     addChild(mp_islandGround);
-    addChild(mp_entranceTop);
-    addChild(mp_entranceBottom);
+    addChild(mp_entrance);
     addChild(mp_ground1);
     addChild(mp_tower);
     addChild(mp_towerTopLeft);
@@ -51,6 +67,7 @@ Level1::Level1()
     addChild(mp_monkey2);
     addChild(mp_cloudSpawner);
     addChild(mp_levelExit);
+    addChild(mp_water);
 
     mp_skybox->setTexture("assets/skybox.png");
     mp_skybox->setSize(AE::Window::size());
@@ -77,6 +94,8 @@ Level1::Level1()
 
     mp_levelExit->setGlobalPosition({ 2700, -200 });
     mp_levelExit->setSize({ 100, 500 });
+
+    mp_water->collision()->collided.connect(m_onWaterCollision);
 }
 
 //------------------------------------------------------------------//
@@ -93,7 +112,7 @@ void Level1::setPlayer(Player *p_player)
 {
     mp_player = p_player;
     addChild(mp_player);
-    mp_player->setGlobalPosition({ 0, -200 });
+    mp_player->setGlobalPosition({ 0, 100 });
 
     mp_monkey1->setPlayer(mp_player);
     mp_monkey2->setPlayer(mp_player);

@@ -4,6 +4,7 @@
 #include <enemies/monkey.h>
 #include <common/cloud_spawner.h>
 #include <common/level_exit.h>
+#include <common/water.h>
 
 //------------------------------------------------------------------//
 
@@ -29,9 +30,9 @@ private:
     AE::Sprite *mp_skybox{ nullptr };
     CloudSpawner *mp_cloudSpawner{ nullptr };
 
+    Water *mp_water{ nullptr };
     Platform *mp_islandGround{ nullptr };
-    Platform *mp_entranceTop{ nullptr };
-    Platform *mp_entranceBottom{ nullptr };
+    Platform *mp_entrance{ nullptr };
     Platform *mp_ground1{ nullptr };
     Platform *mp_tower{ nullptr };
     Platform *mp_towerTopLeft{ nullptr };
@@ -53,6 +54,7 @@ private:
     AE::Slot<AE::Vector2> m_windowSizeChanged;
 
     LevelExit *mp_levelExit{ nullptr };
+    AE::Slot<AE::Collision *> m_onWaterCollision;
 };
 
 //------------------------------------------------------------------//
