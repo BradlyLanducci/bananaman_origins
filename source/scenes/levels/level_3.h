@@ -1,7 +1,7 @@
 #pragma once
 
 #include <scenes/level.h>
-#include <enemies/monkey.h>
+#include <enemies/babboon.h>
 #include <common/cloud_spawner.h>
 #include <common/level_exit.h>
 
@@ -27,7 +27,6 @@ public:
 
 private:
     AE::Sprite *mp_skybox{ nullptr };
-    CloudSpawner *mp_cloudSpawner{ nullptr };
     Platform *mp_islandGround{ nullptr };
 
     Platform *mp_trunk1{ nullptr };
@@ -35,6 +34,8 @@ private:
 
     GameUi *mp_gameUi{ nullptr };
     Player *mp_player{ nullptr };
+
+    Babboon *mp_boss{ nullptr };
 
     AE::Slot<AE::Vector2> m_windowSizeChanged;
 

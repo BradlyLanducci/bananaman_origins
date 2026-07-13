@@ -48,8 +48,9 @@ Player::Player()
                   {
                       mp_bounceTimer->start();
                       setGlobalPosition(globalPosition() + offset);
-                      int health{ p_enemy->health() };
-                      p_enemy->setHealth(health - 1);
+                      int enemyHealth{ p_enemy->health() };
+                      p_enemy->setHealth(enemyHealth - 1);
+                      setHealth(health() - 1);
                       mp_jumper->begin(JumpSeconds, JumpForce / 2);
                   }
               }
