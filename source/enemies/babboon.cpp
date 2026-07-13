@@ -13,14 +13,6 @@ Babboon::Babboon()
     , mp_meleeTimer(new AE::Timer(MeleeCooldown))
     , mp_rangedTimer(new AE::Timer(RangedCooldown))
     , mp_meleeCollision(new AE::Collision())
-    , m_collisionResolved(
-          [this](const AE::Vector2 &offset)
-          {
-              if (offset.x != 0.0)
-              {
-                  m_facingRight = offset.x > 0.0;
-              }
-          })
     , m_attackFinished(
           [this]
           {
@@ -37,7 +29,7 @@ Babboon::Babboon()
                   {
                       m_isAttacking = false;
                       mp_meleeCollision->setEnabled(false);
-                      p_player->setHealth(p_player->health() - 1);
+                      //   p_player->setHealth(p_player->health() - 1);
                   }
               }
           })
@@ -47,7 +39,6 @@ Babboon::Babboon()
     setMaxHealth(10);
 
     AE::Collision *p_collision{ collision() };
-    resolvedCollision.connect(m_collisionResolved);
 
     addChild(p_collision);
     addChild(mp_meleeCollision);
@@ -60,10 +51,10 @@ Babboon::Babboon()
     auto idleRight{ std::make_shared<AE::Spritesheet>("assets/babboon_idle_right.png", 3, rows, 3, fps, true) };
     auto walkLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_walk_left.png", 5, rows, 5, fps, true) };
     auto walkRight{ std::make_shared<AE::Spritesheet>("assets/babboon_walk_right.png", 5, rows, 5, fps, true) };
-    auto attackLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_melee_left.png", 11, rows, 11, fps, true) };
-    auto attackRight{ std::make_shared<AE::Spritesheet>("assets/babboon_melee_right.png", 11, rows, 11, fps, true) };
-    auto rangedLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_left.png", 11, rows, 11, fps, true) };
-    auto rangedRight{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_right.png", 11, rows, 11, fps, true) };
+    auto attackLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_melee_left.png", 11, rows, 11, fps, false) };
+    auto attackRight{ std::make_shared<AE::Spritesheet>("assets/babboon_melee_right.png", 11, rows, 11, fps, false) };
+    auto rangedLeft{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_left.png", 11, rows, 11, fps, false) };
+    auto rangedRight{ std::make_shared<AE::Spritesheet>("assets/babboon_ranged_right.png", 11, rows, 11, fps, false) };
 
     attackLeft->animationFinished.connect(m_attackFinished);
     attackRight->animationFinished.connect(m_attackFinished);
@@ -108,7 +99,7 @@ void Babboon::physicsUpdate(double deltaTime)
     if (shouldRanged)
     {
         mp_rangedTimer->start();
-        shootBanana();
+        // shootBanana();
     }
     else
     {
@@ -133,6 +124,8 @@ void Babboon::physicsUpdate(double deltaTime)
     }
 
     vel.y = GravityForce;
+    AE::Vector2 v{ m_facingRight ? 100.0 : -100.0, 0.0 };
+    Log(Info) << v;
     mp_meleeCollision->setPosition({ m_facingRight ? 100.0 : -25.0, 0.0 });
 
     setVelocity(vel);

@@ -23,11 +23,7 @@ BananaManOrigins::BananaManOrigins()
               }
           })
 {
-    Json::Value root{ AE::FileIO::readJson("save_file.json") };
-    m_levelType = static_cast<Level::Type>(root.get("level", 0).asUInt());
-
     loadNextLevel();
-    mp_player->deserialize(root.get("player", {}));
 
     addChild(mp_camera);
 
@@ -43,10 +39,6 @@ BananaManOrigins::BananaManOrigins()
 
 BananaManOrigins::~BananaManOrigins()
 {
-    Json::Value root;
-    root["player"] = mp_player->serialize();
-    root["level"] = static_cast<int>(m_levelType);
-    (void)AE::FileIO::writeJson("save_file.json", root);
 }
 
 //------------------------------------------------------------------//

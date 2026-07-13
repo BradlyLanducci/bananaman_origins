@@ -11,10 +11,29 @@ Monkey::Monkey()
     : Enemy(new AE::Collision())
     , mp_meleeTimer(new AE::Timer(MeleeCooldown))
     , mp_meleeCollision(new AE::Collision())
-    , m_collisionResolved(
-          [this](const AE::Vector2 &offset)
+    , m_collided(
+          [this](AE::Collision *p_collision)
           {
-              if (offset.x != 0.0)
+              bool isPlayer{ AE::TypeChecking::isType<Player *>(p_collision->parent()) };
+              if (isPlayer)
+              {
+                  return;
+              }
+
+              auto r1{ collision()->rect() };
+              auto r2{ p_collision->rect() };
+              auto offset{ AE::AABB::collide(r1, r2) };
+              bool resolveHorizontal{ std::abs(offset.x) < std::abs(offset.y) };
+              if (resolveHorizontal)
+              {
+                  offset.y = 0.0;
+              }
+              else
+              {
+                  offset.x = 0.0;
+              }
+
+              if (resolveHorizontal && offset.x != 0.0)
               {
                   m_facingRight = offset.x > 0.0;
               }
@@ -43,7 +62,7 @@ Monkey::Monkey()
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
     AE::Collision *p_collision{ collision() };
-    resolvedCollision.connect(m_collisionResolved);
+    p_collision->collided.connect(m_collided);
 
     addChild(p_collision);
     addChild(mp_meleeCollision);
@@ -55,8 +74,8 @@ Monkey::Monkey()
     auto idleRight{ std::make_shared<AE::Spritesheet>("assets/monkey_idle_right.png", 3, rows, 3, fps, true) };
     auto walkLeft{ std::make_shared<AE::Spritesheet>("assets/monkey_walk_left.png", 5, rows, 5, fps, true) };
     auto walkRight{ std::make_shared<AE::Spritesheet>("assets/monkey_walk_right.png", 5, rows, 5, fps, true) };
-    auto attackLeft{ std::make_shared<AE::Spritesheet>("assets/monkey_attack_left.png", 11, rows, 11, fps, true) };
-    auto attackRight{ std::make_shared<AE::Spritesheet>("assets/monkey_attack_right.png", 11, rows, 11, fps, true) };
+    auto attackLeft{ std::make_shared<AE::Spritesheet>("assets/monkey_attack_left.png", 11, rows, 11, fps, false) };
+    auto attackRight{ std::make_shared<AE::Spritesheet>("assets/monkey_attack_right.png", 11, rows, 11, fps, false) };
 
     attackLeft->animationFinished.connect(m_meleeFinished);
     attackRight->animationFinished.connect(m_meleeFinished);

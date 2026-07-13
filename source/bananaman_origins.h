@@ -24,7 +24,7 @@ private:
 
     AE::Camera *mp_camera{ nullptr };
 
-    Level::Type m_levelType;
+    Level::Type m_levelType{ Level::Type::None };
     Level *mp_levelContainer{ nullptr };
     Player *mp_player{ nullptr };
 

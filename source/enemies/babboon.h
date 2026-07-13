@@ -40,7 +40,6 @@ private:
     AE::Timer *mp_rangedTimer{ nullptr };
     AE::Collision *mp_meleeCollision{ nullptr };
 
-    AE::Slot<const AE::Vector2 &> m_collisionResolved;
     AE::Slot<> m_attackFinished;
     AE::Slot<AE::Collision *> m_meleeCollided;
     static constexpr double StateChangeSeconds{ 2.0 };
