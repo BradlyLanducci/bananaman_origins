@@ -2,16 +2,16 @@
 
 //------------------------------------------------------------------//
 
-#include <objects/sprite.h>
+#include <objects/animated_sprite.h>
 
 #include <objects/collision.h>
 
 //------------------------------------------------------------------//
 
-class BananaProjectile final : public AE::Sprite
+class CoconutProjectile final : public AE::AnimatedSprite
 {
 public:
-    BananaProjectile(AE::Vector2 direction, double speed);
+    CoconutProjectile(AE::Vector2 direction, double speed);
 
 private:
     AE::Collision *mp_collision{ nullptr };

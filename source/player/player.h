@@ -41,7 +41,10 @@ private:
     void playAnimation(std::string animation, bool force = false);
     void healthChanged(int health) override;
 
+    void shootCoconut();
+
     AE::Slot<> m_onMeleeFinished;
+    AE::Slot<> m_coconutSpawned;
 
     static constexpr double GravityForce{ 600.0 };
     static constexpr double ClimbSpeed{ -300.0 };
@@ -49,6 +52,7 @@ private:
     static constexpr double JumpSeconds{ 0.3 };
     static constexpr double JumpForce{ 800.0 };
     static constexpr double BounceCooldownSeconds{ 0.25 };
+    static constexpr double CoconutCooldownSeconds{ 2.0 };
 
     AE::AnimatedSprite *mp_sprite{ nullptr };
     Jumper *mp_jumper{ nullptr };
@@ -56,10 +60,11 @@ private:
 
     bool m_facingRight{ true };
     bool m_isClimbing{ false };
-
+    bool m_shooting{ false };
     bool m_hasCoconut{ false };
 
     AE::Timer *mp_bounceTimer{ nullptr };
+    AE::Timer *mp_coconutTimer{ nullptr };
 
     AE::Slot<AE::Collision *> m_onCollided;
 

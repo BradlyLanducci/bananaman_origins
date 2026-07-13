@@ -1,5 +1,5 @@
 #include <player/player.h>
-#include <player/banana_projectile.h>
+#include <player/coconut_projectile.h>
 #include <enemies/enemy.h>
 #include <common/vine.h>
 
@@ -15,6 +15,7 @@ Player::Player()
     , mp_jumper(new Jumper(this, collision()))
     , mp_meleeAttack(new PlayerMeleeAttack())
     , mp_bounceTimer(new AE::Timer(BounceCooldownSeconds))
+    , mp_coconutTimer(new AE::Timer(CoconutCooldownSeconds, false))
     , m_onCollided(
           [this](AE::Collision *p_collision)
           {
@@ -59,6 +60,15 @@ Player::Player()
               mp_meleeAttack->endAttack();
               playAnimation("idle");
           })
+    , m_coconutSpawned(
+          [this]()
+          {
+              if (m_hasCoconut && m_numCoconuts < PlayerMaxCoconuts)
+              {
+                  m_numCoconuts = std::clamp(m_numCoconuts + 1, 0, PlayerMaxCoconuts);
+                  coconutsUpdated.emit(m_numCoconuts);
+              }
+          })
     , m_jumpSfx("assets/sfx/jump.wav")
     , m_walkSfx{ { "assets/sfx/walk_1.wav", "assets/sfx/walk_2.wav", "assets/sfx/walk_3.wav",
                    "assets/sfx/walk_4.wav" } }
@@ -75,6 +85,9 @@ Player::Player()
     addChild(mp_jumper);
     addChild(mp_meleeAttack);
     addChild(mp_bounceTimer);
+    addChild(mp_coconutTimer);
+    mp_coconutTimer->finished.connect(m_coconutSpawned);
+    mp_coconutTimer->start();
 
     const int rows{ 1 };
     const int fps{ 8 };
@@ -211,6 +224,15 @@ void Player::handleInput()
         playAnimation("melee", true);
     }
 
+    if (m_hasCoconut && AE::Keyboard::isPressed(AE::Keyboard::Key::C))
+    {
+        shootCoconut();
+    }
+    else if (m_hasCoconut && !AE::Keyboard::isPressed(AE::Keyboard::Key::C))
+    {
+        m_shooting = false;
+    }
+
     setVelocity(vel);
 
     m_isClimbing = false;
@@ -265,6 +287,31 @@ void Player::healthChanged(int health)
     else
     {
         healthUpdated.emit(health);
+    }
+}
+
+//------------------------------------------------------------------//
+
+void Player::shootCoconut()
+{
+    if (!m_shooting && m_numCoconuts > 0)
+    {
+        auto p_parent{ parent() };
+        if (p_parent)
+        {
+            m_shooting = true;
+
+            m_numCoconuts -= 1;
+
+            coconutsUpdated.emit(m_numCoconuts);
+
+            AE::Vector2 direction{ m_facingRight ? AE::Vector2(1.0, 0.0) : AE::Vector2(-1.0, 0.0) };
+            double speed{ 1000.0 };
+            CoconutProjectile *p_projectile{ new CoconutProjectile(direction, speed) };
+            AE::Vector2 initialPosition{ globalPosition() + (m_facingRight ? AE::Vector2(60, 0) : AE::Vector2()) };
+            p_projectile->setGlobalPosition(initialPosition);
+            p_parent->addChild(p_projectile);
+        }
     }
 }
 

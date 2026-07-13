@@ -1,4 +1,4 @@
-#include <player/banana_projectile.h>
+#include <player/coconut_projectile.h>
 #include <enemies/enemy.h>
 #include <player/player.h>
 
@@ -7,7 +7,7 @@
 
 //------------------------------------------------------------------//
 
-BananaProjectile::BananaProjectile(AE::Vector2 direction, double speed)
+CoconutProjectile::CoconutProjectile(AE::Vector2 direction, double speed)
     : mp_collision(new AE::Collision())
     , m_collided(
           [this](AE::Collision *p_collision)
@@ -20,7 +20,7 @@ BananaProjectile::BananaProjectile(AE::Vector2 direction, double speed)
                   return;
               }
 
-              bool isProjectile{ AE::TypeChecking::isType<BananaProjectile *>(p_parent) };
+              bool isProjectile{ AE::TypeChecking::isType<CoconutProjectile *>(p_parent) };
 
               if (isProjectile)
               {
@@ -32,10 +32,7 @@ BananaProjectile::BananaProjectile(AE::Vector2 direction, double speed)
               {
                   int health{ p_enemy->health() };
                   health -= 1;
-                  if (health > 0)
-                  {
-                      p_enemy->setHealth(health);
-                  }
+                  p_enemy->setHealth(health);
               }
 
               queueDelete();
@@ -47,8 +44,11 @@ BananaProjectile::BananaProjectile(AE::Vector2 direction, double speed)
                  { setGlobalPosition(globalPosition() + direction * speed * deltaTime); });
     mp_collision->collided.connect(m_collided);
 
-    setTexture("assets/banana.png");
+    auto coconutAnimation{ std::make_shared<AE::Spritesheet>("assets/coconut_animation.png", 4, 1, 4, 8, true) };
+    addAnimation("coconutAnimation", coconutAnimation);
     mp_collision->setSize({ m_texture.size() });
+
+    playAnimation("coconutAnimation");
 }
 
 //------------------------------------------------------------------//
