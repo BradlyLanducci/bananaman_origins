@@ -17,8 +17,6 @@ public:
     BananaManOrigins();
     ~BananaManOrigins();
 
-    void setUi(GameUi *p_gameUi);
-
 private:
     void loadNextLevel();
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <objects/sprite.h>
-#include <utilities/signal.h>
+#include <player/player.h>
+#include <ui/health_bar.h>
 
 #include <input/input_event.h>
 
@@ -14,6 +14,8 @@ public:
 
     void openContinue();
 
+    void connectPlayer(Player *p_player);
+
     AE::Signal<> continueRequest;
 
 private:
@@ -21,6 +23,8 @@ private:
     void closeContinue();
 
     void inputUpdate(AE::Shared<AE::InputEvent> inputEvent);
+
+    HealthBar *mp_healthBar{ nullptr };
 
     AE::Sprite *mp_continue{ nullptr };
 

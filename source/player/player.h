@@ -26,7 +26,10 @@ public:
     Json::Value serialize();
     void deserialize(const Json::Value &data);
 
+    AE::Signal<int> healthUpdated;
     AE::Signal<> died;
+
+    static constexpr int PlayerMaxHealth{ 4 };
 
 private:
     void handleInput();
@@ -35,7 +38,6 @@ private:
 
     AE::Slot<> m_onMeleeFinished;
 
-    static constexpr int PlayerMaxHealth{ 3 };
     static constexpr double GravityForce{ 600.0 };
     static constexpr double ClimbSpeed{ -300.0 };
     static constexpr double WalkSpeed{ 200.0 };

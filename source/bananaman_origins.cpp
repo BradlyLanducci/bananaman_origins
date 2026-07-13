@@ -51,15 +51,6 @@ BananaManOrigins::~BananaManOrigins()
 
 //------------------------------------------------------------------//
 
-void BananaManOrigins::setUi(GameUi *p_gameUi)
-{
-    mp_gameUi = p_gameUi;
-    mp_gameUi->continueRequest.connect(m_onContinueRequested);
-    mp_levelContainer->setUi(mp_gameUi);
-}
-
-//------------------------------------------------------------------//
-
 void BananaManOrigins::loadNextLevel()
 {
     constexpr double CameraFollowSpeed{ 0.005 };
@@ -74,6 +65,11 @@ void BananaManOrigins::loadNextLevel()
 
         mp_levelContainer->queueDelete();
         mp_camera->follow(nullptr, CameraFollowSpeed);
+    }
+
+    if (mp_gameUi)
+    {
+        mp_gameUi->queueDelete();
     }
 
     Level::Type nextLevel{ static_cast<Level::Type>(static_cast<int>(m_levelType) + 1) };
@@ -101,6 +97,11 @@ void BananaManOrigins::loadNextLevel()
     mp_player = new Player();
     mp_player->died.connect(m_playerDied);
     mp_levelContainer->setPlayer(mp_player);
+
+    mp_gameUi = new GameUi();
+    addChild(mp_gameUi);
+
+    mp_gameUi->connectPlayer(mp_player);
     mp_levelContainer->setUi(mp_gameUi);
 
     mp_camera->follow(mp_player, CameraFollowSpeed);

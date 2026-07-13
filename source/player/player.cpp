@@ -245,6 +245,10 @@ void Player::healthChanged(int health)
     {
         died.emit();
     }
+    else
+    {
+        healthUpdated.emit(health);
+    }
 }
 
 //------------------------------------------------------------------//

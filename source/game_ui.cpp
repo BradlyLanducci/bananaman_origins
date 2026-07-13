@@ -1,10 +1,12 @@
 #include <game_ui.h>
+
 #include <utilities/window.h>
 
 //------------------------------------------------------------------//
 
 GameUi::GameUi()
-    : mp_continue(new AE::Sprite())
+    : mp_healthBar(new HealthBar())
+    , mp_continue(new AE::Sprite())
     , m_windowResized(
           [this](AE::Vector2 windowSize)
           {
@@ -12,6 +14,7 @@ GameUi::GameUi()
               setContinuePosition();
           })
 {
+    addChild(mp_healthBar);
     addChild(mp_continue);
     mp_continue->setTexture("assets/continue.png");
     mp_continue->setScale({ 4.0, 4.0 });
@@ -32,6 +35,13 @@ void GameUi::openContinue()
 {
     setContinuePosition();
     mp_continue->setEnabled(true);
+}
+
+//------------------------------------------------------------------//
+
+void GameUi::connectPlayer(Player *p_player)
+{
+    p_player->healthUpdated.connect(mp_healthBar->update);
 }
 
 //------------------------------------------------------------------//
