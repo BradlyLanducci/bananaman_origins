@@ -2,6 +2,7 @@
 
 #include <player/player.h>
 #include <ui/health_bar.h>
+#include <ui/coconut_bar.h>
 
 #include <input/input_event.h>
 
@@ -25,6 +26,7 @@ private:
     void inputUpdate(AE::Shared<AE::InputEvent> inputEvent);
 
     HealthBar *mp_healthBar{ nullptr };
+    CoconutBar *mp_coconutBar{ nullptr };
 
     AE::Sprite *mp_continue{ nullptr };
 

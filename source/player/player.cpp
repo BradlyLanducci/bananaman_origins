@@ -218,6 +218,23 @@ void Player::handleInput()
 
 //------------------------------------------------------------------//
 
+void Player::pickedUp(Pickupable::Type type)
+{
+    switch (type)
+    {
+    case Pickupable::Type::Coconut:
+        m_hasCoconut = true;
+        coconutsUpdated.emit(PlayerMaxCoconuts);
+        m_numCoconuts = PlayerMaxCoconuts;
+        break;
+    case Pickupable::Type::Health:
+        setHealth(health() + 1);
+        break;
+    default:
+        break;
+    }
+}
+
 void Player::playAnimation(std::string animation, bool force)
 {
     if (!force && mp_meleeAttack->isAttacking())

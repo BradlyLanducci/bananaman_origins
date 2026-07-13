@@ -1,5 +1,7 @@
 #include <common/damageable.h>
 
+#include <algorithm>
+
 //------------------------------------------------------------------//
 
 int Damageable::health() const
@@ -18,7 +20,7 @@ int Damageable::maxHealth() const
 
 void Damageable::setHealth(int health)
 {
-    m_health = health;
+    m_health = std::clamp(health, 0, m_maxHealth);
     healthChanged(m_health);
 }
 

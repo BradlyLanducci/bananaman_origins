@@ -4,6 +4,7 @@
 #include <player/player_melee_attack.h>
 #include <player/random_sfx.h>
 #include <common/damageable.h>
+#include <common/pickupable.h>
 
 #include <utilities/signal.h>
 #include <objects/character.h>
@@ -21,15 +22,19 @@ class Player final
 public:
     Player();
 
+    void pickedUp(Pickupable::Type type);
+
     void physicsUpdate(double deltaTime);
 
     Json::Value serialize();
     void deserialize(const Json::Value &data);
 
     AE::Signal<int> healthUpdated;
+    AE::Signal<int> coconutsUpdated;
     AE::Signal<> died;
 
     static constexpr int PlayerMaxHealth{ 4 };
+    static constexpr int PlayerMaxCoconuts{ 4 };
 
 private:
     void handleInput();
@@ -52,12 +57,16 @@ private:
     bool m_facingRight{ true };
     bool m_isClimbing{ false };
 
+    bool m_hasCoconut{ false };
+
     AE::Timer *mp_bounceTimer{ nullptr };
 
     AE::Slot<AE::Collision *> m_onCollided;
 
     AE::AudioPlayer m_jumpSfx;
     RandomSfx m_walkSfx;
+
+    int m_numCoconuts{};
 };
 
 //------------------------------------------------------------------//

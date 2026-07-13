@@ -6,6 +6,7 @@
 
 GameUi::GameUi()
     : mp_healthBar(new HealthBar())
+    , mp_coconutBar(new CoconutBar())
     , mp_continue(new AE::Sprite())
     , m_windowResized(
           [this](AE::Vector2 windowSize)
@@ -15,6 +16,7 @@ GameUi::GameUi()
           })
 {
     addChild(mp_healthBar);
+    addChild(mp_coconutBar);
     addChild(mp_continue);
     mp_continue->setTexture("assets/continue.png");
     mp_continue->setScale({ 4.0, 4.0 });
@@ -42,6 +44,7 @@ void GameUi::openContinue()
 void GameUi::connectPlayer(Player *p_player)
 {
     p_player->healthUpdated.connect(mp_healthBar->update);
+    p_player->coconutsUpdated.connect(mp_coconutBar->update);
 }
 
 //------------------------------------------------------------------//

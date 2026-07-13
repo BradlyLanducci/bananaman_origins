@@ -5,6 +5,7 @@
 #include <game_ui.h>
 #include <common/water.h>
 #include <common/damageable.h>
+#include <common/pickupable.h>
 
 #include <utilities/window.h>
 
@@ -27,6 +28,7 @@ Level2::Level2()
     , mp_platform4(new Platform{ { 100, 100 }, { 1500, -150 } })
     , mp_platform5(new Platform{ { 100, 100 }, { 1300, -250 } })
     , mp_platform6(new Platform{ { 300, 100 }, { 900, -300 } })
+    , mp_coconut(new Pickupable(Pickupable::Type::Coconut))
     , mp_islandGround4(new Platform{ { 3500, 300 }, { 2400, 300 }, "assets/full_grass.png", "assets/half_grass.png" })
     , mp_islandGround5(new Platform{ { 3000, 100 }, { 2900, 200 }, "assets/full_grass.png" })
     , mp_islandGround6(new Platform{ { 100, 100 }, { 2900, 100 }, "assets/full_grass.png" })
@@ -73,6 +75,7 @@ Level2::Level2()
     addChild(mp_platform4);
     addChild(mp_platform5);
     addChild(mp_platform6);
+    addChild(mp_coconut);
     addChild(mp_islandGround4);
     addChild(mp_islandGround5);
     addChild(mp_islandGround6);
@@ -93,6 +96,8 @@ Level2::Level2()
     mp_skybox->setIsUi(true);
 
     mp_water->collision()->collided.connect(m_onWaterCollision);
+
+    mp_coconut->setGlobalPosition({ 950, -320 });
 
     mp_vine1->setGlobalPosition({ 2045, -200 });
     mp_vine2->setGlobalPosition({ 2145, -200 });

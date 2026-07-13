@@ -15,6 +15,7 @@ namespace AE
 class Platform;
 class Vine;
 class Water;
+class Pickupable;
 
 //------------------------------------------------------------------//
 
@@ -43,6 +44,7 @@ private:
     Platform *mp_platform4{ nullptr };
     Platform *mp_platform5{ nullptr };
     Platform *mp_platform6{ nullptr };
+    Pickupable *mp_coconut{ nullptr };
     Platform *mp_islandGround4{ nullptr };
     Platform *mp_islandGround5{ nullptr };
     Platform *mp_islandGround6{ nullptr };
