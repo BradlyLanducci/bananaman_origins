@@ -38,6 +38,7 @@ private:
     Babboon *mp_boss{ nullptr };
 
     AE::Slot<AE::Vector2> m_windowSizeChanged;
+    AE::Slot<> m_gameWon;
 
     LevelExit *mp_levelExit{ nullptr };
 };

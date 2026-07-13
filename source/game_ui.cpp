@@ -8,19 +8,29 @@ GameUi::GameUi()
     : mp_healthBar(new HealthBar())
     , mp_coconutBar(new CoconutBar())
     , mp_continue(new AE::Sprite())
+    , mp_gameComplete(new AE::Sprite())
     , m_windowResized(
           [this](AE::Vector2 windowSize)
           {
               setSize(windowSize);
+              mp_gameComplete->setSize(windowSize);
               setContinuePosition();
           })
 {
     addChild(mp_healthBar);
     addChild(mp_coconutBar);
     addChild(mp_continue);
+    addChild(mp_gameComplete);
+
     mp_continue->setTexture("assets/continue.png");
     mp_continue->setScale({ 4.0, 4.0 });
     mp_continue->setEnabled(false);
+    mp_continue->setIsUi(true);
+
+    mp_gameComplete->setTexture("assets/game_complete.png");
+    mp_gameComplete->setEnabled(false);
+    mp_gameComplete->setIsUi(true);
+
     setIsUi(true);
 
     AE::Vector2 windowSize{ AE::Window::size() };
@@ -37,6 +47,14 @@ void GameUi::openContinue()
 {
     setContinuePosition();
     mp_continue->setEnabled(true);
+}
+
+//------------------------------------------------------------------//
+
+void GameUi::openGameWon()
+{
+    mp_gameComplete->setEnabled(true);
+    mp_gameComplete->setSize(AE::Window::size());
 }
 
 //------------------------------------------------------------------//

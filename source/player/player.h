@@ -23,8 +23,8 @@ public:
     struct Stats
     {
         int health{ PlayerMaxHealth };
-        int numCoconuts{};
-        bool hasCoconut{ false };
+        int numCoconuts{ PlayerMaxCoconuts };
+        bool hasCoconut{ true };
 
         void reset()
         {

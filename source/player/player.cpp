@@ -201,7 +201,7 @@ void Player::handleInput()
         }
     }
 
-    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Up))
+    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Space))
     {
         if (m_isClimbing)
         {

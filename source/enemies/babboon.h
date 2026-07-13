@@ -24,6 +24,8 @@ public:
 
     void physicsUpdate(double deltaTime);
 
+    void healthChanged(int health) override;
+
 private:
     static constexpr double GravityForce{ 400.0 };
     static constexpr double WalkSpeed{ 100.0 };

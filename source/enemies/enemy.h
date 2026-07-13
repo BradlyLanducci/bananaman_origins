@@ -22,6 +22,8 @@ public:
 
     void healthChanged(int health) override;
 
+    AE::Signal<> died;
+
 protected:
     Player *mp_player{ nullptr };
     AE::AnimatedSprite *mp_sprite{ nullptr };

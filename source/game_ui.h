@@ -14,6 +14,7 @@ public:
     GameUi();
 
     void openContinue();
+    void openGameWon();
 
     void connectPlayer(Player *p_player);
 
@@ -27,8 +28,8 @@ private:
 
     HealthBar *mp_healthBar{ nullptr };
     CoconutBar *mp_coconutBar{ nullptr };
-
     AE::Sprite *mp_continue{ nullptr };
+    AE::Sprite *mp_gameComplete{ nullptr };
 
     AE::Slot<AE::Vector2> m_windowResized;
 };

@@ -22,9 +22,12 @@ private:
 
     GameUi *mp_gameUi{ nullptr };
 
+    AE::AnimatedSprite *mp_introSequence{ nullptr };
+    AE::Slot<> m_introFinished;
+
     AE::Camera *mp_camera{ nullptr };
 
-    Level::Type m_levelType{ Level::Type::None };
+    Level::Type m_levelType{ Level::Type::Level2 };
     Level *mp_levelContainer{ nullptr };
 
     Player::Stats m_playerStats;

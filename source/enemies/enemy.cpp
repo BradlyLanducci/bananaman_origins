@@ -32,6 +32,7 @@ void Enemy::healthChanged(int health)
         if (health <= 0)
         {
             queueDelete();
+            died.emit();
         }
     }
 }

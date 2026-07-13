@@ -125,10 +125,16 @@ void Babboon::physicsUpdate(double deltaTime)
 
     vel.y = GravityForce;
     AE::Vector2 v{ m_facingRight ? 100.0 : -100.0, 0.0 };
-    Log(Info) << v;
     mp_meleeCollision->setPosition({ m_facingRight ? 100.0 : -25.0, 0.0 });
 
     setVelocity(vel);
+}
+
+//------------------------------------------------------------------//
+
+void Babboon::healthChanged(int health)
+{
+    Enemy::healthChanged(health);
 }
 
 //------------------------------------------------------------------//

@@ -43,7 +43,7 @@ Level1::Level1()
                   Player *p_player{ dynamic_cast<Player *>(p_collision->parent()) };
                   if (p_player)
                   {
-                      p_player->died.emit();
+                      p_player->setHealth(0);
                   }
               }
           })

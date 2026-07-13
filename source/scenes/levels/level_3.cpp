@@ -16,6 +16,7 @@ Level3::Level3()
     , mp_boss(new Babboon)
     , m_windowSizeChanged([this](AE::Vector2 newSize) { mp_skybox->setSize(newSize); })
     , mp_levelExit(new LevelExit())
+    , m_gameWon([this]() { mp_gameUi->openGameWon(); })
 {
     addChild(mp_skybox);
     addChild(mp_islandGround);
@@ -33,6 +34,8 @@ Level3::Level3()
 
     mp_levelExit->setGlobalPosition({ 2700, 0 });
     mp_levelExit->setSize({ 100, 500 });
+
+    mp_boss->died.connect(m_gameWon);
 }
 
 //------------------------------------------------------------------//

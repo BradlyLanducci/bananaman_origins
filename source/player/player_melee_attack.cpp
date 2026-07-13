@@ -50,7 +50,7 @@ bool PlayerMeleeAttack::isAttacking() const
 
 bool PlayerMeleeAttack::doAttack(bool isFacingRight)
 {
-    if (AE::Keyboard::isPressed(AE::Keyboard::Key::Enter) && !m_meleeing)
+    if (AE::Keyboard::isPressed(AE::Keyboard::Key::X) && !m_meleeing)
     {
         m_meleeing = true;
 

@@ -6,11 +6,27 @@
 
 #include <idle/idle_manager.h>
 #include <utilities/file_io.h>
+#include <utilities/window.h>
 
 //------------------------------------------------------------------//
 
 BananaManOrigins::BananaManOrigins()
-    : mp_camera(new AE::Camera())
+    : mp_introSequence(new AE::AnimatedSprite())
+    , m_introFinished(
+          [this]()
+          {
+              loadNextLevel();
+
+              addChild(mp_camera);
+
+              constexpr double CameraZoom{ 2.0 };
+              mp_camera->setZoom({ CameraZoom, CameraZoom });
+              AE::CameraManager::get().setCurrent(mp_camera);
+
+              m_music.setVolumeDb(-9.0);
+              m_music.play(true);
+          })
+    , mp_camera(new AE::Camera())
     , m_music("assets/sfx/banana_theme.wav")
     , m_onContinueRequested([this]() { loadNextLevel(); })
     , m_playerDied(
@@ -23,16 +39,19 @@ BananaManOrigins::BananaManOrigins()
               }
           })
 {
-    loadNextLevel();
+    addChild(mp_introSequence);
+    mp_introSequence->setIsUi(true);
+    auto intro{ std::make_shared<AE::Spritesheet>("assets/intro_sequence.png", 19, 1, 19, 4, false) };
 
-    addChild(mp_camera);
+    double scalar{ AE::Window::size().x / 640.0 };
 
-    constexpr double CameraZoom{ 2.0 };
-    mp_camera->setZoom({ CameraZoom, CameraZoom });
-    AE::CameraManager::get().setCurrent(mp_camera);
+    int introWidth{ static_cast<int>(scalar * static_cast<double>(intro->texture().size().x)) };
+    int introHeight{ static_cast<int>(scalar * static_cast<double>(intro->texture().size().y)) };
 
-    m_music.setVolumeDb(-9.0);
-    m_music.play(true);
+    intro->texture().setSize({ introWidth, introHeight });
+    mp_introSequence->addAnimation("intro", intro);
+    intro->animationFinished.connect(m_introFinished);
+    mp_introSequence->playAnimation("intro");
 }
 
 //------------------------------------------------------------------//
