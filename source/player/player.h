@@ -20,7 +20,20 @@ class Player final
     , public Damageable
 {
 public:
-    Player();
+    struct Stats
+    {
+        int health{ PlayerMaxHealth };
+        int numCoconuts{};
+        bool hasCoconut{ false };
+
+        void reset()
+        {
+            static Stats _clear;
+            *this = _clear;
+        }
+    };
+
+    Player(Stats &stats);
 
     void pickedUp(Pickupable::Type type);
 
@@ -54,6 +67,8 @@ private:
     static constexpr double BounceCooldownSeconds{ 0.25 };
     static constexpr double CoconutCooldownSeconds{ 2.0 };
 
+    Stats &m_stats;
+
     AE::AnimatedSprite *mp_sprite{ nullptr };
     Jumper *mp_jumper{ nullptr };
     PlayerMeleeAttack *mp_meleeAttack;
@@ -61,7 +76,6 @@ private:
     bool m_facingRight{ true };
     bool m_isClimbing{ false };
     bool m_shooting{ false };
-    bool m_hasCoconut{ false };
 
     AE::Timer *mp_bounceTimer{ nullptr };
     AE::Timer *mp_coconutTimer{ nullptr };
@@ -70,8 +84,6 @@ private:
 
     AE::AudioPlayer m_jumpSfx;
     RandomSfx m_walkSfx;
-
-    int m_numCoconuts{};
 };
 
 //------------------------------------------------------------------//

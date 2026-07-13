@@ -86,7 +86,7 @@ void BananaManOrigins::loadNextLevel()
     }
 
     addChild(mp_levelContainer);
-    mp_player = new Player();
+    mp_player = new Player(m_playerStats);
     mp_player->died.connect(m_playerDied);
     mp_levelContainer->setPlayer(mp_player);
 
@@ -96,6 +96,7 @@ void BananaManOrigins::loadNextLevel()
     mp_gameUi->continueRequest.connect(m_onContinueRequested);
 
     mp_gameUi->connectPlayer(mp_player);
+    mp_player->setHealth(m_playerStats.health);
     mp_levelContainer->setUi(mp_gameUi);
 
     mp_camera->follow(mp_player, CameraFollowSpeed);

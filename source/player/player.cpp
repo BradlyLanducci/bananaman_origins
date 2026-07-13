@@ -9,8 +9,9 @@
 
 //------------------------------------------------------------------//
 
-Player::Player()
+Player::Player(Stats &stats)
     : AE::Character(new AE::Collision())
+    , m_stats(stats)
     , mp_sprite(new AE::AnimatedSprite())
     , mp_jumper(new Jumper(this, collision()))
     , mp_meleeAttack(new PlayerMeleeAttack())
@@ -64,10 +65,10 @@ Player::Player()
     , m_coconutSpawned(
           [this]()
           {
-              if (m_hasCoconut && m_numCoconuts < PlayerMaxCoconuts)
+              if (m_stats.hasCoconut && m_stats.numCoconuts < PlayerMaxCoconuts)
               {
-                  m_numCoconuts = std::clamp(m_numCoconuts + 1, 0, PlayerMaxCoconuts);
-                  coconutsUpdated.emit(m_numCoconuts);
+                  m_stats.numCoconuts = std::clamp(m_stats.numCoconuts + 1, 0, PlayerMaxCoconuts);
+                  coconutsUpdated.emit(m_stats.numCoconuts);
               }
           })
     , m_jumpSfx("assets/sfx/jump.wav")
@@ -75,6 +76,7 @@ Player::Player()
                    "assets/sfx/walk_4.wav" } }
 {
     setMaxHealth(PlayerMaxHealth);
+    setHealth(m_stats.health);
 
     addPhysicsCb([this](double deltaTimeTime) { physicsUpdate(deltaTimeTime); });
 
@@ -225,11 +227,11 @@ void Player::handleInput()
         playAnimation("melee", true);
     }
 
-    if (m_hasCoconut && AE::Keyboard::isPressed(AE::Keyboard::Key::C))
+    if (m_stats.hasCoconut && AE::Keyboard::isPressed(AE::Keyboard::Key::C))
     {
         shootCoconut();
     }
-    else if (m_hasCoconut && !AE::Keyboard::isPressed(AE::Keyboard::Key::C))
+    else if (m_stats.hasCoconut && !AE::Keyboard::isPressed(AE::Keyboard::Key::C))
     {
         m_shooting = false;
     }
@@ -246,9 +248,9 @@ void Player::pickedUp(Pickupable::Type type)
     switch (type)
     {
     case Pickupable::Type::Coconut:
-        m_hasCoconut = true;
+        m_stats.hasCoconut = true;
         coconutsUpdated.emit(PlayerMaxCoconuts);
-        m_numCoconuts = PlayerMaxCoconuts;
+        m_stats.numCoconuts = PlayerMaxCoconuts;
         break;
     case Pickupable::Type::Health:
         setHealth(health() + 1);
@@ -283,28 +285,31 @@ void Player::healthChanged(int health)
 {
     if (health <= 0)
     {
+        m_stats.reset();
         died.emit();
     }
     else
     {
         healthUpdated.emit(health);
     }
+
+    m_stats.health = health;
 }
 
 //------------------------------------------------------------------//
 
 void Player::shootCoconut()
 {
-    if (!m_shooting && m_numCoconuts > 0)
+    if (!m_shooting && m_stats.numCoconuts > 0)
     {
         auto p_parent{ parent() };
         if (p_parent)
         {
             m_shooting = true;
 
-            m_numCoconuts -= 1;
+            m_stats.numCoconuts -= 1;
 
-            coconutsUpdated.emit(m_numCoconuts);
+            coconutsUpdated.emit(m_stats.numCoconuts);
 
             AE::Vector2 direction{ m_facingRight ? AE::Vector2(1.0, 0.0) : AE::Vector2(-1.0, 0.0) };
             double speed{ 1000.0 };

@@ -29,7 +29,7 @@ Babboon::Babboon()
                   {
                       m_isAttacking = false;
                       mp_meleeCollision->setEnabled(false);
-                      //   p_player->setHealth(p_player->health() - 1);
+                      p_player->setHealth(p_player->health() - 1);
                   }
               }
           })
@@ -99,7 +99,7 @@ void Babboon::physicsUpdate(double deltaTime)
     if (shouldRanged)
     {
         mp_rangedTimer->start();
-        // shootBanana();
+        shootBanana();
     }
     else
     {
@@ -139,9 +139,9 @@ void Babboon::shootBanana()
     if (p_parent)
     {
         AE::Vector2 direction{ m_facingRight ? AE::Vector2(1.0, 0.0) : AE::Vector2(-1.0, 0.0) };
-        double speed{ 1000.0 };
+        double speed{ 500.0 };
         BananaProjectile *p_projectile{ new BananaProjectile(direction, speed) };
-        AE::Vector2 initialPosition{ globalPosition() + (m_facingRight ? AE::Vector2(60, 0) : AE::Vector2()) };
+        AE::Vector2 initialPosition{ globalPosition() + (m_facingRight ? AE::Vector2(60, 40) : AE::Vector2(0, 40)) };
         p_projectile->setGlobalPosition(initialPosition);
         p_parent->addChild(p_projectile);
     }

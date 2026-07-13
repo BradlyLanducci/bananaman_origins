@@ -26,6 +26,8 @@ private:
 
     Level::Type m_levelType{ Level::Type::None };
     Level *mp_levelContainer{ nullptr };
+
+    Player::Stats m_playerStats;
     Player *mp_player{ nullptr };
 
     AE::AudioPlayer m_music;
